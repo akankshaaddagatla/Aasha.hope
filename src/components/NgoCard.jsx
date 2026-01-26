@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Heart, Users, Clock } from "lucide-react";
+import {Users } from "lucide-react";
 
 export default function NgoCard({ ngo }) {
   const [isHovered, setIsHovered] = useState(false);
