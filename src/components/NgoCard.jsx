@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import {Users } from "lucide-react";
+import { useRouter } from 'next/navigation'
 
 export default function NgoCard({ ngo }) {
+  const router = useRouter();
   const [isHovered, setIsHovered] = useState(false);
 
   if (!ngo) {
@@ -24,11 +26,16 @@ export default function NgoCard({ ngo }) {
     }).format(numAmount);
   };
 
+  const handleClick = async () =>{
+    router.push(`ngos/${ngo.id}`)
+  }
+
   return (
     <div
       className="relative bg-white rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-200 w-full max-w-sm mx-auto shadow-md flex flex-col"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={handleClick}
     >
       {/* Image Section - Fixed Height */}
       <div className="relative h-90 flex-shrink-0">
@@ -41,19 +48,17 @@ export default function NgoCard({ ngo }) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
 
         <div className="absolute bottom-1 left-4 right-4 text-white">
-          <h3 className="text-lg font-bold mb-1 line-clamp-2 h-12 overflow-hidden">
+          <h3 className="text-md font-bold mb-1 line-clamp-2 h-12 overflow-hidden">
             {ngo.cause_statement}
           </h3>
         </div>
 
-        <button className="absolute top-3 right-3 bg-white/90 hover:bg-gray-200 px-3 py-1.5 rounded-full text-sm font-medium text-gray-800 hover:text-black transition-colors duration-200 flex items-center gap-2 shadow-sm">
-          Follow
-        </button>
+      
 
         <div className="absolute bottom-0 right-5 flex items-center gap-4 text-xs text-gray-200 mb-3">
           <div className="flex items-center gap-1">
             <Users className="w-3 h-3" />
-            <span>{formatCurrency(ngo.subscribers_count)} Followers</span>
+            <span>{formatCurrency(ngo.followers_count)} Followers</span>
           </div>
         </div>
       </div>
@@ -108,7 +113,7 @@ export default function NgoCard({ ngo }) {
             <button className="w-full bg-red-700 hover:bg-red-800 text-white font-medium py-2 px-3 rounded-lg text-sm transition-colors duration-200 shadow-md hover:shadow-lg">
               Become a monthly supporter
             </button>
-            <button className="w-full border-2 border-red-600 text-red-600 hover:bg-red-50 font-medium py-2 px-3 rounded-lg text-sm transition-colors duration-200">
+            <button className="w-full border-2 border-red-600 text-red-600 hover:bg-blue-50 font-medium py-2 px-3 rounded-lg text-sm transition-colors duration-200">
               Donate now
             </button>
           </div>

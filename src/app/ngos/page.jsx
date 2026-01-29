@@ -1,8 +1,8 @@
 "use client";
 
 import NgoCard from "@/components/NgoCard";
-import { supabase } from "@/lib/supabase/client";
 import { useState, useEffect } from "react";
+import { getVerifiedNgos } from "../actions/ngo.actions";
 import NgoNav from "@/components/NgoNav";
 
 export default function NgosBrowse() {
@@ -11,7 +11,7 @@ export default function NgosBrowse() {
 
   const getNgos = async () => {
     try {
-      const { data, error } = await supabase.from("ngos").select("*");
+      const { data, error } = await getVerifiedNgos();
       if (error) {
         console.Error("Error", error.message);
       } else {
@@ -26,7 +26,7 @@ export default function NgosBrowse() {
 
   useEffect(() => {
     getNgos();
-  });
+  },[]);
 
   if (loading) {
     return (

@@ -1,5 +1,4 @@
 import React from 'react';
-import Logo from './Logo';
 
 export default function NgoNav() {
   return (
@@ -15,9 +14,6 @@ export default function NgoNav() {
         <div className="absolute inset-0 bg-black/40"></div> 
       </div>
       
-      <div className="relative p-4">
-        <Logo/>
-      </div>
       <div className="relative pl-5 pt-5">
         <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">
           Support Causes That Matter

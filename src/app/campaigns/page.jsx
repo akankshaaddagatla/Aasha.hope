@@ -1,9 +1,9 @@
 "use client";
 
 import CampaignCard from "@/components/CampaignCard";
-import { supabase } from "@/lib/supabase/client";
 import { useState, useEffect } from "react";
 import CampaignsNav from "@/components/CampaignsNav";
+import { getVerifiedCampaigns } from "../actions/campaign.actions";
 
 export default function CampaignBrowse() {
   const [campaigns, setcampaigns] = useState([]);
@@ -11,7 +11,7 @@ export default function CampaignBrowse() {
 
   const getCampaigns = async () => {
     try {
-      const { data, error } = await supabase.from("campaigns").select("*");
+      const { data, error } = await getVerifiedCampaigns();
       if (error) {
         console.error("Error", error.message);
       } else {
@@ -26,7 +26,7 @@ export default function CampaignBrowse() {
 
   useEffect(() => {
     getCampaigns();
-  });
+  },[]);
 
   if (loading) {
     return (
