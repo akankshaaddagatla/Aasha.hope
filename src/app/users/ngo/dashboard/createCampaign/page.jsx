@@ -23,7 +23,7 @@ export default function CreateCampaignPage() {
 
   useEffect(() => {
     async function loadNGO() {
-      const { ngo } = await getMyNGO()
+      const { data : ngo } = await getMyNGO()
       if (!ngo) {
         alert('Please register your NGO first')
         router.push('/users/ngo/dashboard/registerNgo')

@@ -20,7 +20,7 @@ export default function RegisterNGOPage() {
   })
 
   const getuser = async ()=>{
-    const {user} = await getUser();
+    const {data : user} = await getUser();
     if(!user || user.role != "ngo"){
       redirect('/signup')
     }

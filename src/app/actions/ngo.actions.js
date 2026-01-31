@@ -1,4 +1,5 @@
 "use server";
+
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 
@@ -102,7 +103,7 @@ export async function createNGO(formData) {
   }
 
   revalidatePath("/ngos");
-  return { success: true, ngo: data };
+  return { success: true, data: data };
 }
 
 export async function updateNGO(ngoId, formData) {
@@ -152,7 +153,7 @@ export async function getMyNGO() {
   console.log(user);
 
   if (!user) {
-    return { ngo: null };
+    return { data: null };
   }
 
   const { data, error } = await supabase
@@ -163,9 +164,8 @@ export async function getMyNGO() {
 
   if (error) {
     console.log("Data",error.message);
-    return { ngo: null };
+    return { data: null };
   }
 
-  console.log("Data",data);
-  return { ngo: data };
+  return { data: data };
 }

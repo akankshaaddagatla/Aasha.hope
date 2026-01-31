@@ -1,4 +1,3 @@
-// components/FollowButton.jsx
 'use client'
 
 import { useState, useEffect, useTransition } from 'react'

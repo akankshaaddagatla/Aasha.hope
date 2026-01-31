@@ -1,34 +1,29 @@
 "use client"
 
-import { getUser } from '@/app/actions/auth.actions'
-import { redirect } from 'next/navigation'
-import { verifyNGO, verifyCampaign, closeCampaign } from '@/app/actions/admin.actions'
-import Image from 'next/image'
+import { getUser } from '@/app/actions/users.actions'
+import { useRouter } from 'next/navigation'
 import { VerifyNGOButton } from '@/components/VerifyNgoButton'
 import { VerifyCampaignButton } from '@/components/VerifyCampaignButton'
-import { getPendingCampaigns } from '@/app/actions/admin.actions'
-import { getPendingNGOs } from '@/app/actions/admin.actions'
+import { getPendingCampaigns, getPendingNGOs, getAllDonations} from '@/app/actions/admin.actions'
 import { getVerifiedCampaigns } from '@/app/actions/campaign.actions'
 import { getVerifiedNgos } from '@/app/actions/ngo.actions'
-import { getAllUsers } from '@/app/actions/users.actions'
-import { getAllDonations } from '@/app/actions/admin.actions'
-import { useEffect } from 'react'
+import { getAllUsers, getUserById } from '@/app/actions/users.actions'
+import { useEffect, useState } from 'react'
+import Image from 'next/image'
 
 async function checkAdminAuth() {
-  const { data: { user } } = await getUser()
+  const { data: user } = await getUser()
 
   if (!user) {
-    redirect('/login')
+    router.push('/login');
+    return;
   }
 
-  const { data: userData } = await supabase
-    .from('users')
-    .select('role, name')
-    .eq('id', user.id)
-    .single()
+  const { data: userData } = await getUserById(user.id)
 
   if (userData?.role !== 'admin') {
-    redirect('/')
+    router.push('/')
+    return;
   }
 
   return { user, userData }
@@ -63,6 +58,7 @@ async function getAdminStats() {
 }
 
 export default function AdminDashboard() {
+  const router = useRouter();
   const [userData, setUserData] = useState([]);
   const [stats, setStats] = useState([]);
 
@@ -112,7 +108,7 @@ export default function AdminDashboard() {
           
           <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
             <p className="text-sm text-gray-600 mb-1">Total Raised</p>
-            <p className="text-2xl font-bold">₹{stats.totalRaised.toLocaleString()}</p>
+            <p className="text-2xl font-bold">₹{stats.totalRaised?.toLocaleString()}</p>
           </div>
           
           <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-indigo-500">
@@ -131,7 +127,7 @@ export default function AdminDashboard() {
                 {stats.pendingNGOs}
               </span>
             </h2>
-            {stats.pendingNGOsList.length > 0 ? (
+            {stats.pendingNGOsList?.length > 0 ? (
               <div className="space-y-4 max-h-[600px] overflow-y-auto">
                 {stats.pendingNGOsList.map((ngo) => (
                   <div key={ngo.id} className="border-2 border-yellow-200 rounded-lg p-4 bg-yellow-50">
@@ -187,7 +183,7 @@ export default function AdminDashboard() {
                 {stats.pendingCampaigns}
               </span>
             </h2>
-            {stats.pendingCampaignsList.length > 0 ? (
+            {stats.pendingCampaignsList?.length > 0 ? (
               <div className="space-y-4 max-h-[600px] overflow-y-auto">
                 {stats.pendingCampaignsList.map((campaign) => (
                   <div key={campaign.id} className="border-2 border-orange-200 rounded-lg p-4 bg-orange-50">

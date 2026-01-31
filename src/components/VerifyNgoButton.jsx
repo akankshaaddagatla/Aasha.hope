@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { verifyNGO} from '@/app/actions/admin.actions'
+import { verifyNGO, testDirectUpdate} from '@/app/actions/admin.actions'
 
 export function VerifyNGOButton({ ngoId, ngoName }) {
   const [loading, setLoading] = useState(false)

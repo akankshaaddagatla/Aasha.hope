@@ -1,7 +1,8 @@
-"use server";
+"use client";
 
-import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { getUser, getUserById } from "@/app/actions/users.actions";
 import { getMyNGO } from "@/app/actions/ngo.actions";
 import { getCampaignsByNGO } from "@/app/actions/campaign.actions";
 import { getNGOFollowers } from "@/app/actions/follow.actions";
@@ -9,33 +10,66 @@ import { getPostsByNGO } from "@/app/actions/posts.actions";
 import Image from "next/image";
 import Link from "next/link";
 
-async function checkNGOAuth() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+export default function NGODashboard() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [ngo, setNgo] = useState([]);
+  const [campaigns, setCampaigns] = useState([]);
+  const [followers, setFollowers] = useState(0);
+  const [posts, setPosts] = useState([]);
 
-  if (!user) {
-    redirect("/login");
+  useEffect(() => {
+    async function init() {
+      try {
+        const { data: user } = await getUser();
+
+        if (!user) {
+          router.push("/login");
+          return;
+        }
+
+        const { data: userData } = await getUserById(user.id);
+        console.log(userData.role)
+
+        if (userData?.role !== "ngo") {
+          router.push("/");
+          return;
+        }
+
+        const { data: ngoData } = await getMyNGO();
+
+        if (!ngoData) {
+          console.log("NO Ngo")
+          setNgo(null);
+          setLoading(false);
+          return;
+        }
+
+        setNgo(ngoData);
+
+        const { data: campaigns } = await getCampaignsByNGO(ngoData.id);
+        const { data: followers } = await getNGOFollowers(ngoData.id);
+        const { data: posts } = await getPostsByNGO(ngoData.id);
+        setCampaigns(campaigns || []);
+        setFollowers(followers || 0);
+        setPosts(posts || []);
+      }catch(error){
+        console.error("Dashboard error:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    init();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        Loading dashboard...
+      </div>
+    );
   }
-
-  const { data: userData } = await supabase
-    .from("users")
-    .select("role, name")
-    .eq("id", user.id)
-    .maybeSingle();
-
-  if (userData?.role !== "ngo") {
-    redirect("/");
-  }
-
-  return { user, userData };
-}
-
-export default async function NGODashboard() {
-  const { user, userData } = await checkNGOAuth();
-
-  const { ngo } = await getMyNGO();
 
   if (!ngo) {
     return (
@@ -52,10 +86,6 @@ export default async function NGODashboard() {
       </div>
     );
   }
-
-  const { data : campaigns } = await getCampaignsByNGO(ngo.id);
-  const { data : followers } = await getNGOFollowers(ngo.id);
-  const { data: posts } = await getPostsByNGO(ngo.id);
 
   const activeCampaigns = campaigns?.filter((c) => c.status === "active");
   const completedCampaigns = campaigns?.filter((c) => c.status === "completed");

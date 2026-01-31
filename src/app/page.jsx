@@ -90,7 +90,7 @@ export default function Home() {
             Be the steady hand that lifts someone up every single month
           </p>
         </div>
-        <div className="mt-10 mx-25 ">
+        <div className="m-10 mx-25 ">
           {campaigns.length === 0 ? (
             <div className="text-center text-gray-500 mt-8">
               No Campaigns found. Create some to get started.
