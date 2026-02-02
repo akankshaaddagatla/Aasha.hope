@@ -188,7 +188,7 @@ export async function getFollowedNGOs() {
     .order("followed_at", { ascending: false });
 
   if (error) {
-    // console.error("Error fetching followed NGOs:", error);
+    console.error("Error fetching followed NGOs:", error);
     return { data: [] };
   }
 
@@ -213,7 +213,6 @@ export async function getFollowerCount(ngoId) {
 }
 
 //  Get followers for an NGO
-
 export async function getNGOFollowers(ngoId) {
   const supabase = await createClient();
 

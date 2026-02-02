@@ -14,11 +14,7 @@ export async function signUp(formData) {
     return { error: "All fields are required" };
   }
 
-    // if (password.length < 8) {
-    //   return { error: 'Password must be at least 8 characters' }
-    // }
-
-  // Sign up with Supabase Auth
+  // Sign up supabase auth
   const { data: authData, error: authError } = await supabase.auth.signUp({
     email,
     password,
@@ -68,22 +64,9 @@ export async function signIn(formData) {
     password,
   });
 
-  console.log("DATA", data.user)
   if (error) {
     return { error: error.message };
   }
-
-  // Redirect based on user role
-  const { data: userData, error: roleError } = await supabase
-    .from("users")
-    .select("role")
-    .eq("id", data.user.id)
-    .maybeSingle();
-
-  if (roleError) {
-    return { error: roleError.message };
-  }
-  console.log(userData);
 
   revalidatePath('/', 'layout')
   redirect('/')
@@ -130,68 +113,29 @@ export async function getUser() {
   };
 }
 
-export async function updateProfile(updates) {
-  const supabase = await createClient();
+// export async function updateProfile(updates) {
+//   const supabase = await createClient();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+//   const {
+//     data: { user },
+//   } = await supabase.auth.getUser();
 
-  if (!user) {
-    return { error: "Not authenticated" };
-  }
+//   if (!user) {
+//     return { error: "Not authenticated" };
+//   }
 
-  const { error } = await supabase
-    .from("users")
-    .update(updates)
-    .eq("id", user.id);
+//   const { error } = await supabase
+//     .from("users")
+//     .update(updates)
+//     .eq("id", user.id);
 
-  if (error) {
-    return { error: error.message };
-  }
+//   if (error) {
+//     return { error: error.message };
+//   }
 
-  revalidatePath("/profile");
-  return { success: true };
-}
-
-export async function resetPassword(email) {
-  const supabase = await createClient();
-
-  if (!email) {
-    return { error: "Email is required" };
-  }
-
-  const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/reset-password`,
-  });
-
-  if (error) {
-    return { error: error.message };
-  }
-
-  return {
-    success: true,
-    message: "Password reset link sent to your email",
-  };
-}
-
-export async function updatePassword(newPassword) {
-  const supabase = await createClient();
-
-  if (!newPassword || newPassword.length < 8) {
-    return { error: "Password must be at least 8 characters" };
-  }
-
-  const { error } = await supabase.auth.updateUser({
-    password: newPassword,
-  });
-
-  if (error) {
-    return { error: error.message };
-  }
-
-  return { success: true, message: "Password updated successfully" };
-}
+//   revalidatePath("/profile");
+//   return { success: true };
+// }
 
 export async function checkRole(requiredRole) {
   const { user } = await getUser();

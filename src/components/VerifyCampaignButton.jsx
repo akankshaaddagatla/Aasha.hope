@@ -30,7 +30,7 @@ export function VerifyCampaignButton({ campaignId, campaignTitle}) {
   }
 
   const handleClose = async () => {
-    if (!confirm(`Are you sure you want to CLOSE "${campaignTitle}"? This action cannot be undone.`)) {
+    if (!confirm(`Are you sure you want to REJECT "${campaignTitle}"? This action cannot be undone.`)) {
       return
     }
 
@@ -85,7 +85,7 @@ export function VerifyCampaignButton({ campaignId, campaignTitle}) {
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
-          Close
+          Reject
         </button>
       </div>
 

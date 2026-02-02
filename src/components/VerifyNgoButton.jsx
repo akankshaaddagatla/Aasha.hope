@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { verifyNGO, testDirectUpdate} from '@/app/actions/admin.actions'
+import { verifyNGO, rejectNgo} from '@/app/actions/admin.actions'
 
 export function VerifyNGOButton({ ngoId, ngoName }) {
   const [loading, setLoading] = useState(false)
@@ -31,27 +31,27 @@ export function VerifyNGOButton({ ngoId, ngoName }) {
     setLoading(false)
   }
 
-//   const handleReject = async () => {
-//     if (!confirm(`Are you sure you want to REJECT "${ngoName}"? This action cannot be undone.`)) {
-//       return
-//     }
+  const handleReject = async () => {
+    if (!confirm(`Are you sure you want to REJECT "${ngoName}"? This action cannot be undone.`)) {
+      return
+    }
 
-//     setLoading(true)
-//     setMessage('')
+    setLoading(true)
+    setMessage('')
 
-//     const result = await rejectNGO(ngoId)
+    const result = await rejectNgo(ngoId)
 
-//     if (result.error) {
-//       setMessage(result.error)
-//     } else {
-//       setMessage(result.message)
-//       setTimeout(() => {
-//         window.location.reload()
-//       }, 1000)
-//     }
+    if (result.error) {
+      setMessage(result.error)
+    } else {
+      setMessage(result.message)
+      setTimeout(() => {
+        window.location.reload()
+      }, 1000)
+    }
 
-//     setLoading(false)
-//   }
+    setLoading(false)
+  }
 
   return (
     <div>
@@ -79,7 +79,7 @@ export function VerifyNGOButton({ ngoId, ngoName }) {
           )}
         </button>
 
-        {/* <button
+        <button
           onClick={handleReject}
           disabled={loading}
           className="px-4 py-2 border-2 border-red-300 text-red-600 rounded-lg hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium flex items-center justify-center gap-2"
@@ -88,8 +88,7 @@ export function VerifyNGOButton({ ngoId, ngoName }) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
           Reject
-        </button> */}
-
+        </button>
       </div>
 
       {message && (

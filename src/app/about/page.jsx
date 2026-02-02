@@ -6,7 +6,7 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-600 via-purple-600 to-pink-500 text-white py-20">
+      <section className="relative bg-linear-to-br from-blue-600 via-purple-600 to-pink-500 text-white py-20">
         <div className="absolute inset-0 bg-black opacity-20"></div>
         <div className="relative max-w-7xl mx-auto px-4 text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-6">
@@ -30,21 +30,8 @@ export default function AboutPage() {
               <p className="text-lg text-gray-700 leading-relaxed mb-4">
                 Through transparency, verification, and community engagement, we ensure every donation creates meaningful change. Our platform empowers NGOs to share their stories, engage supporters, and build sustainable funding.
               </p>
-              <div className="flex gap-4 mt-6">
-                <div className="text-center">
-                  <p className="text-4xl font-bold text-blue-600">500+</p>
-                  <p className="text-gray-600">Verified NGOs</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-4xl font-bold text-purple-600">₹10Cr+</p>
-                  <p className="text-gray-600">Raised</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-4xl font-bold text-pink-600">50K+</p>
-                  <p className="text-gray-600">Donors</p>
-                </div>
-              </div>
             </div>
+            
             <div className="relative h-96 rounded-2xl overflow-hidden shadow-2xl">
               <Image
                 src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&q=80"

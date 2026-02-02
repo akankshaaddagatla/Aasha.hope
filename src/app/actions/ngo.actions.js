@@ -3,26 +3,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 
-// export async function getAllNgos() {
-//   try {
-//     const supabase = await createClient();
-
-//     const { data: ngos, error } = await supabase
-//       .from("ngos")
-//       .select("*")
-//       .order("created_at", { ascending: false });
-//     if (error) {
-//       console.error("Error while getting ngos :", error.message);
-//       return { success: false, error };
-//     }
-
-//     return { success: true, data: ngos };
-//   } catch (err) {
-//     console.error("Some Error while getting ngos :", err.message);
-//     return { success: false, err };
-//   }
-// }
-
 export async function getVerifiedNgos(){
   const supabase = await createClient();
 
@@ -106,44 +86,7 @@ export async function createNGO(formData) {
   return { success: true, data: data };
 }
 
-export async function updateNGO(ngoId, formData) {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return { error: "You must be logged in" };
-  }
-
-  // Verify ownership
-  const { data: ngo } = await supabase
-    .from("ngos")
-    .select("owner_id")
-    .eq("id", ngoId)
-    .maybeSingle();
-
-  if (!ngo || ngo.owner_id !== user.id) {
-    return { error: "Unauthorized" };
-  }
-
-  const { error } = await supabase
-    .from("ngos")
-    .update(formData)
-    .eq("id", ngoId);
-
-  if (error) {
-    return { error: "Failed to update NGO" };
-  }
-
-  revalidatePath(`/ngos/${ngoId}`);
-  return { success: true };
-}
-
-/**
- * Get NGO owned by current user
- */
+// Get NGO owned by current user
 export async function getMyNGO() {
   const supabase = await createClient();
 
@@ -169,3 +112,38 @@ export async function getMyNGO() {
 
   return { data: data };
 }
+
+// export async function updateNGO(ngoId, formData) {
+//   const supabase = await createClient();
+
+//   const {
+//     data: { user },
+//   } = await supabase.auth.getUser();
+
+//   if (!user) {
+//     return { error: "You must be logged in" };
+//   }
+
+//   // Verify ownership
+//   const { data: ngo } = await supabase
+//     .from("ngos")
+//     .select("owner_id")
+//     .eq("id", ngoId)
+//     .maybeSingle();
+
+//   if (!ngo || ngo.owner_id !== user.id) {
+//     return { error: "Unauthorized" };
+//   }
+
+//   const { error } = await supabase
+//     .from("ngos")
+//     .update(formData)
+//     .eq("id", ngoId);
+
+//   if (error) {
+//     return { error: "Failed to update NGO" };
+//   }
+
+//   revalidatePath(`/ngos/${ngoId}`);
+//   return { success: true };
+// }

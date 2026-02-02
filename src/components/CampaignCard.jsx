@@ -1,7 +1,12 @@
+"use client"
+
 import React, { useState } from "react";
 import {Users} from "lucide-react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function CampaignCard({ campaign }) {
+  const router = useRouter();
   const [isHovered, setIsHovered] = useState(false);
 
   if (!campaign) {
@@ -24,6 +29,10 @@ export default function CampaignCard({ campaign }) {
     }).format(numAmount);
   };
 
+  const handleClick = async () => {
+    router.push(`campaigns/${campaign.id}`);
+  };
+
   return (
     <div
       className="relative bg-white rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-200 w-full max-w-sm mx-auto shadow-md flex flex-col"
@@ -31,7 +40,8 @@ export default function CampaignCard({ campaign }) {
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Image Section - Fixed Height */}
-      <div className="relative h-90 flex-shrink-0">
+      <div className="relative h-90 shrink-0"
+           onClick={handleClick}>
         <img
           src={campaign.cover_image_url}
           alt={campaign.title}
@@ -74,7 +84,7 @@ export default function CampaignCard({ campaign }) {
         <div
           className={`transition-all duration-300 ${isHovered ? "opacity-0 max-h-0 overflow-hidden" : "opacity-100"}`}
         >
-          <div className="p-1 border-t border-gray-100 flex-shrink-0">
+          <div className="p-1 border-t border-gray-100 shrink-0">
             <div className="flex justify-between text-xs mb-1">
               <span className="text-gray-700 font-medium">Progress</span>
               <span className="text-gray-700 font-bold">
@@ -97,9 +107,10 @@ export default function CampaignCard({ campaign }) {
         >
           {/* Two Buttons Layout */}
           <div className="flex flex-row gap-3 h-full justify-center">
-            <button className="w-full bg-red-700 hover:bg-red-800 text-white font-medium py-2 px-3 rounded-lg text-sm transition-colors duration-200 shadow-md hover:shadow-lg">
-              Donate Now
-            </button>     
+            <Link className="w-full bg-red-700 hover:bg-red-800 text-white text-center font-medium py-2 px-3 rounded-lg text-sm transition-colors duration-200 shadow-md hover:shadow-lg" 
+                  href={`/donation?campaignId=${campaign.id}&campaignTitle=${campaign.title}`}>
+                  Donate Now
+            </Link>
           </div>
         </div>
       </div>

@@ -10,6 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect,useState } from "react";
 import { checkIfFollowing } from "@/app/actions/follow.actions";
+import DonationBar from "@/components/DonationBar";
 
 export default function NGOPage({ params }) {
   const [ngo, setNgo] = useState([]);
@@ -112,7 +113,7 @@ export default function NGOPage({ params }) {
                     </div>
 
                     {/* Follow Button */}
-                    <div className="flex items-center gap-4 flex-shrink-0">
+                    <div className="flex items-center gap-4 shrink-0">
                       <FollowStats followerCount={followerCount} />
                       <FollowButton ngoId={ngo.id} initialFollowing={isFollowing} setFollowerCount={setFollowerCount}/>     
                     </div>
@@ -124,7 +125,7 @@ export default function NGOPage({ params }) {
 
                   {/* Stats Grid */}
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 border border-blue-200">
+                    <div className="bg-linear-to-br from-blue-50 to-blue-100 rounded-xl p-4 border border-blue-200">
                       <div className="flex items-center gap-2 mb-1">
                         <svg
                           className="w-5 h-5 text-blue-600"
@@ -148,7 +149,7 @@ export default function NGOPage({ params }) {
                       </p>
                     </div>
 
-                    <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 border border-green-200">
+                    <div className="bg-linear-to-br from-green-50 to-green-100 rounded-xl p-4 border border-green-200">
                       <div className="flex items-center gap-2 mb-1">
                         <svg
                           className="w-5 h-5 text-green-600"
@@ -172,7 +173,7 @@ export default function NGOPage({ params }) {
                       </p>
                     </div>
 
-                    <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 border border-purple-200">
+                    <div className="bg-linear-to-br from-purple-50 to-purple-100 rounded-xl p-4 border border-purple-200">
                       <div className="flex items-center gap-2 mb-1">
                         <svg
                           className="w-5 h-5 text-purple-600"
@@ -196,7 +197,7 @@ export default function NGOPage({ params }) {
                       </p>
                     </div>
 
-                    <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-4 border border-orange-200">
+                    <div className="bg-linear-to-br from-orange-50 to-orange-100 rounded-xl p-4 border border-orange-200">
                       <div className="flex items-center gap-2 mb-1">
                         <svg
                           className="w-5 h-5 text-orange-600"
@@ -225,10 +226,10 @@ export default function NGOPage({ params }) {
 
               {/* Cause Statement */}
               {ngo.cause_statement && (
-                <div className="mt-8 p-6 bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 rounded-xl border-l-4 border-blue-500">
+                <div className="mt-8 p-6 bg-linear-to-r from-blue-50 via-purple-50 to-pink-50 rounded-xl border-l-4 border-blue-500">
                   <div className="flex items-start gap-3">
                     <svg
-                      className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1"
+                      className="w-6 h-6 text-blue-600 shrink-0 mt-1"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -254,7 +255,7 @@ export default function NGOPage({ params }) {
 
               {/* Fundraising Progress (if applicable) */}
               {ngo.amount_raising > 0 && (
-                <div className="mt-8 p-6 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200">
+                <div className="mt-8 p-6 bg-linear-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200">
                   <div className="flex items-center justify-between mb-3">
                     <h3 className="font-bold text-lg text-gray-900">
                       Fundraising Goal
@@ -265,7 +266,7 @@ export default function NGOPage({ params }) {
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-4 mb-3 overflow-hidden">
                     <div
-                      className="bg-gradient-to-r from-green-500 to-emerald-600 h-4 rounded-full transition-all duration-500 shadow-lg"
+                      className="bg-linear-to-r from-green-500 to-emerald-600 h-4 rounded-full transition-all duration-500 shadow-lg"
                       style={{ width: `${progressPercentage}%` }}
                     />
                   </div>
@@ -294,7 +295,7 @@ export default function NGOPage({ params }) {
           {/* Main Content - Latest Update */}
           <div className="lg:col-span-2 space-y-6">
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-              <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-6">
+              <div className="bg-linear-to-r from-blue-500 to-purple-600 p-6">
                 <h2 className="text-2xl font-bold text-white flex items-center gap-2">
                   <svg
                     className="w-7 h-7"
@@ -318,7 +319,7 @@ export default function NGOPage({ params }) {
                   <div className="space-y-6">
                     <article className="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-shadow">
                       <div className="flex items-center gap-3 mb-4">
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
+                        <div className="w-12 h-12 rounded-full bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
                           {ngo.name.charAt(0)}
                         </div>
                         <div>
@@ -392,7 +393,7 @@ export default function NGOPage({ params }) {
           {/* Sidebar - Latest Campaign */}
           <div className="space-y-6">
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden sticky top-6">
-              <div className="bg-gradient-to-r from-orange-500 to-red-600 p-6">
+              <div className="bg-linear-to-r from-orange-500 to-red-600 p-6">
                 <h2 className="text-2xl font-bold text-white flex items-center gap-2">
                   <svg
                     className="w-7 h-7"
@@ -438,7 +439,7 @@ export default function NGOPage({ params }) {
                         <div className="space-y-2">
                           <div className="w-full bg-gray-200 rounded-full h-2">
                             <div
-                              className="bg-gradient-to-r from-orange-500 to-red-600 h-2 rounded-full"
+                              className="bg-linear-to-r from-orange-500 to-red-600 h-2 rounded-full"
                               style={{
                                 width: `${Math.min((latestCampaign.amount_raised / latestCampaign.amount_raising) * 100, 100)}%`,
                               }}
@@ -493,6 +494,10 @@ export default function NGOPage({ params }) {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="">
+        <DonationBar ngoId={ngo.id} ngoName={ngo.name}/>
       </div>
     </div>
   );

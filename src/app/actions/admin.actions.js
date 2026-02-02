@@ -3,30 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 
-// app/actions/admin.actions.js - ADD THIS TEST FUNCTION
-export async function testDirectUpdate(ngoId) {
-  const supabase = await createClient();
-
-  console.log('=== DIRECT UPDATE TEST ===');
-  console.log('NGO ID:', ngoId);
-
-  // Try the simplest possible update
-  const { data, error, status, statusText } = await supabase
-    .from("ngos")
-    .update({ is_verified: true })
-    .eq("id", ngoId);
-
-  console.log('Status:', status);
-  console.log('Status Text:', statusText);
-  console.log('Data:', data);
-  console.log('Error:', error);
-  console.log('Full error object:', JSON.stringify(error, null, 2));
-
-  return { data, error, status };
-}
-/**
- * Verify NGO - Admin only
- */
+// Verify NGO - Admin only
 export async function verifyNGO(ngoId) {
   const supabase = await createClient();
 
@@ -68,56 +45,33 @@ export async function verifyNGO(ngoId) {
   return { success: true, message: "NGO verified successfully!" };
 }
 
-// /**
-//  * Reject NGO - Admin only
-//  */
-// export async function rejectNGO(ngoId, reason) {
-//   const supabase = await createClient()
+export async function rejectNgo(ngoId) {
+  const supabase = await createClient();
 
-//   // Check if user is admin
-//   const { data: { user } } = await supabase.auth.getUser()
+  // Check if user is admin
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-//   if (!user) {
-//     return { error: 'You must be logged in' }
-//   }
+  if (!user) {
+    return { error: "You must be logged in" };
+  }
 
-//   const { data: userData } = await supabase
-//     .from('users')
-//     .select('role')
-//     .eq('id', user.id)
-//     .maybeSingle()
+  const { data: userData } = await supabase
+    .from("users")
+    .select("role")
+    .eq("id", user.id)
+    .maybeSingle();
 
-//   if (userData?.role !== 'admin') {
-//     return { error: 'Unauthorized. Admin access required.' }
-//   }
+  if (userData?.role !== "admin") {
+    return { error: "Unauthorized. Admin access required." };
+  }
 
-//   // Option 1: Delete the NGO
-//   // const { error } = await supabase
-//   //   .from('ngos')
-//   //   .delete()
-//   //   .eq('id', ngoId)
+  revalidatePath("/users/admin/dashboard");
+  return { success: true, message: "Ngo rejected" };
+}
 
-//   // Option 2: Mark as rejected (better for keeping records)
-//   const { error } = await supabase
-//     .from('ngos')
-//     .update({
-//       is_verified: false,
-//       verification_status: 'rejected',
-//       // You can add a rejection_reason field to store why
-//     })
-//     .eq('id', ngoId)
-
-//   if (error) {
-//     return { error: 'Failed to reject NGO' }
-//   }
-
-//   revalidatePath('/users/admin/dashboard')
-//   return { success: true, message: 'NGO rejected' }
-// }
-
-/**
- * Verify Campaign - Admin only
- */
+// Verify Campaign - Admin only
 export async function verifyCampaign(campaignId) {
   const supabase = await createClient();
 
@@ -140,17 +94,6 @@ export async function verifyCampaign(campaignId) {
     return { error: "Unauthorized. Admin access required." };
   }
 
-  // // Get campaign to check
-  // const { data: campaign } = await supabase
-  //   .from('campaigns')
-  //   .select("*")
-  //   .eq('id', campaignId)
-  //   .maybeSingle()
-
-  // if (!campaign) {
-  //   return { error: 'Campaign not found' }
-  // }
-
   // Verify the campaign
   const { error } = await supabase
     .from("campaigns")
@@ -169,9 +112,7 @@ export async function verifyCampaign(campaignId) {
   return { success: true, message: "Campaign verified and activated!" };
 }
 
-/**
- * Reject Campaign - Admin only
- */
+// Reject Campaign - Admin only
 export async function closeCampaign(campaignId) {
   const supabase = await createClient();
 
@@ -194,7 +135,7 @@ export async function closeCampaign(campaignId) {
     return { error: "Unauthorized. Admin access required." };
   }
 
-  // Mark as rejected
+  // Mark as closed
   const { error } = await supabase
     .from("campaigns")
     .update({
@@ -210,9 +151,7 @@ export async function closeCampaign(campaignId) {
   return { success: true, message: "Campaign rejected" };
 }
 
-/**
- * Get all pending NGOs (Admin only)
- */
+// Get all pending NGOs (Admin only)
 export async function getPendingNGOs() {
   const supabase = await createClient();
 
@@ -256,9 +195,7 @@ export async function getPendingNGOs() {
   return { data: data || [] };
 }
 
-/**
- * Get all pending campaigns (Admin only)
- */
+// Get all pending campaigns (Admin only)
 export async function getPendingCampaigns() {
   const supabase = await createClient();
 

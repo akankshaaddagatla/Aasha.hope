@@ -5,21 +5,18 @@ import { useState, useEffect } from "react";
 import { getUser, getUserById } from "@/app/actions/users.actions";
 import { getMyNGO } from "@/app/actions/ngo.actions";
 import { getCampaignsByNGO } from "@/app/actions/campaign.actions";
-import { getNGOFollowers } from "@/app/actions/follow.actions";
 import { getPostsByNGO } from "@/app/actions/posts.actions";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function NGODashboard() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [ngo, setNgo] = useState([]);
+  const [ngo, setNgo] = useState(null);
   const [campaigns, setCampaigns] = useState([]);
-  const [followers, setFollowers] = useState(0);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    async function init() {
+    async function init(){
       try {
         const { data: user } = await getUser();
 
@@ -29,9 +26,9 @@ export default function NGODashboard() {
         }
 
         const { data: userData } = await getUserById(user.id);
-        console.log(userData.role)
+        console.log(userData.role);
 
-        if (userData?.role !== "ngo") {
+        if (userData?.role !== "ngo"){
           router.push("/");
           return;
         }
@@ -39,7 +36,7 @@ export default function NGODashboard() {
         const { data: ngoData } = await getMyNGO();
 
         if (!ngoData) {
-          console.log("NO Ngo")
+          console.log("NO Ngo");
           setNgo(null);
           setLoading(false);
           return;
@@ -48,12 +45,10 @@ export default function NGODashboard() {
         setNgo(ngoData);
 
         const { data: campaigns } = await getCampaignsByNGO(ngoData.id);
-        const { data: followers } = await getNGOFollowers(ngoData.id);
         const { data: posts } = await getPostsByNGO(ngoData.id);
         setCampaigns(campaigns || []);
-        setFollowers(followers || 0);
         setPosts(posts || []);
-      }catch(error){
+      } catch (error) {
         console.error("Dashboard error:", error);
       } finally {
         setLoading(false);
@@ -88,12 +83,11 @@ export default function NGODashboard() {
   }
 
   const activeCampaigns = campaigns?.filter((c) => c.status === "active");
-  const completedCampaigns = campaigns?.filter((c) => c.status === "completed");
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white">
+      <div className="bg-linear-to-r from-purple-600 to-pink-600 text-white">
         <div className="max-w-7xl mx-auto px-4 py-8">
           <h1 className="text-3xl font-bold mb-2">{ngo.name}</h1>
           <p className="text-purple-100">NGO Admin Dashboard</p>
@@ -151,7 +145,7 @@ export default function NGODashboard() {
             </Link>
 
             <Link
-              href="/users/ngo/dashboard/createCampaign"
+              href="/createCampaign"
               className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-purple-500 hover:bg-purple-50 text-center transition"
             >
               <svg
@@ -210,16 +204,17 @@ export default function NGODashboard() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5"
                 />
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
                 />
               </svg>
-              <p className="font-semibold">Settings</p>
+
+              <p className="font-semibold">Edit Profile</p>
             </Link>
           </div>
         </div>
@@ -234,7 +229,11 @@ export default function NGODashboard() {
                   const progress =
                     (campaign.amount_raised / campaign.amount_raising) * 100;
                   return (
-                    <div key={campaign.id} className="p-4 border rounded-lg">
+                    <Link
+                      key={campaign.id}
+                      className="p-4 bg-purple-100 rounded-lg"
+                      href={`/campaigns/${campaign.id}`}
+                    >
                       <div className="flex items-start justify-between mb-2">
                         <h3 className="font-semibold">{campaign.title}</h3>
                         <span
@@ -266,7 +265,7 @@ export default function NGODashboard() {
                           </span>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   );
                 })}
               </div>
@@ -281,7 +280,7 @@ export default function NGODashboard() {
             {posts.length > 0 ? (
               <div className="space-y-4">
                 {posts.slice(0, 3).map((post) => (
-                  <div key={post.id} className="p-4 border rounded-lg">
+                  <div key={post.id} className="p-4 bg-purple-100 rounded-lg">
                     <p className="text-sm text-gray-600 mb-2">
                       {new Date(post.created_at).toLocaleDateString()}
                     </p>

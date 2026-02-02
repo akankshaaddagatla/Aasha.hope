@@ -29,9 +29,7 @@ export async function getVerifiedCampaigns() {
   return {success : true, data: data || [] };
 }
 
-/**
- * Get single campaign by ID
- */
+// Get single campaign by ID
 export async function getCampaignById(id) {
   const supabase = await createClient();
 
@@ -48,9 +46,7 @@ export async function getCampaignById(id) {
   return { success: true, data: data };
 }
 
-/**
- * Get campaigns by NGO
- */
+// Get campaigns by NGO
 export async function getCampaignsByNGO(ngoId) {
   const supabase = await createClient();
 
@@ -68,11 +64,8 @@ export async function getCampaignsByNGO(ngoId) {
   return {success : true, data: data || [] };
 }
 
+// Create new campaign
 
-
-/**
- * Create new campaign
- */
 export async function createCampaign(formData) {
   const supabase = await createClient();
 
@@ -113,40 +106,57 @@ export async function createCampaign(formData) {
   return { success: true, data: data };
 }
 
-/**
- * Update campaign
- */
-export async function updateCampaign(campaignId, formData) {
+//get campaigns created by a donor
+export async function getCampaignsByUser(){
   const supabase = await createClient();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const {data:{user}} = await supabase.auth.getUser();
 
   if (!user) {
-    return { success : false, error: "You must be logged in" };
+    return {success : false, error: "You must be logged in" };
   }
 
-  // Verify ownership
-  const { data: campaign } = await supabase
-    .from("campaigns")
-    .select("created_by")
-    .eq("id", campaignId)
-    .single();
+  const {data, error} = await supabase.from("campaigns").select("*").eq("created_by", user.id).eq("is_verified",true);
 
-  if (!campaign || campaign.created_by !== user.id) {
-    return { success : false, error: "Unauthorized" };
+  if(error){
+    return{success: false, error: error.message}
   }
 
-  const { error } = await supabase
-    .from("campaigns")
-    .update(formData)
-    .eq("id", campaignId);
-
-  if (error) {
-    return { success : false, error: "Failed to update campaign" };
-  }
-
-  revalidatePath(`/campaigns/${campaignId}`);
-  return { success: true };
+  return {success : true, data: data}
 }
+
+// Update campaign
+// export async function updateCampaign(campaignId, formData) {
+//   const supabase = await createClient();
+
+//   const {
+//     data: { user },
+//   } = await supabase.auth.getUser();
+
+//   if (!user) {
+//     return { success : false, error: "You must be logged in" };
+//   }
+
+//   // Verify ownership
+//   const { data: campaign } = await supabase
+//     .from("campaigns")
+//     .select("created_by")
+//     .eq("id", campaignId)
+//     .single();
+
+//   if (!campaign || campaign.created_by !== user.id) {
+//     return { success : false, error: "Unauthorized" };
+//   }
+
+//   const { error } = await supabase
+//     .from("campaigns")
+//     .update(formData)
+//     .eq("id", campaignId);
+
+//   if (error) {
+//     return { success : false, error: "Failed to update campaign" };
+//   }
+
+//   revalidatePath(`/campaigns/${campaignId}`);
+//   return { success: true };
+// }

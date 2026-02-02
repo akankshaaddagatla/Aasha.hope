@@ -28,9 +28,7 @@ export async function getPostsByNGO(ngoId, limit = 10) {
   return { data: data || [] }
 }
 
-/**
- * Get feed posts from followed NGOs
- */
+// Get posts from followed NGOs
 export async function getFollowedNGOsPosts() {
   const supabase = await createClient()
 
@@ -77,9 +75,7 @@ export async function getFollowedNGOsPosts() {
   return { data: data || [] }
 }
 
-/**
- * Create new post (for NGO admin)
- */
+// Create new post (for NGO)
 export async function createPost(formData) {
   const supabase = await createClient()
 
@@ -120,9 +116,7 @@ export async function createPost(formData) {
   return { success: true, data: data }
 }
 
-/**
- * Delete post
- */
+// Delete post
 export async function deletePost(postId) {
   const supabase = await createClient()
 
