@@ -58,6 +58,7 @@ export default function DonatePage() {
     setError("");
 
     try {
+      console.log(campaignId)
       const order = await createPaymentOrder({
         amount: finalAmount,
         ngoId,

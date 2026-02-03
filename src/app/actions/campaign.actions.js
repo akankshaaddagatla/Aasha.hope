@@ -18,15 +18,31 @@ export async function getVerifiedCampaigns() {
       )
     `,
     )
-    .eq("is_verified", true)
+    .eq("verification_status", "verified")
     .eq("status", "active")
     .order("created_at", { ascending: false });
 
   if (error) {
-    return { success : false, error : error};
+    return { success: false, error: error };
   }
 
-  return {success : true, data: data || [] };
+  return { success: true, data: data || [] };
+}
+
+export async function closeCampaign(campaignId) {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("campaigns")
+    .update({ status: "closed" })
+    .eq("id", campaignId)
+    .select()
+
+  if(error){
+    return {sucess: false, error: "Status update failed"}
+  }
+
+  return{success: true, message: "Campaign Closed"}
 }
 
 // Get single campaign by ID
@@ -54,14 +70,13 @@ export async function getCampaignsByNGO(ngoId) {
     .from("campaigns")
     .select("*")
     .eq("ngo_id", ngoId)
-    .eq("is_verified", true)
     .order("created_at", { ascending: false });
 
   if (error) {
-    return { success : false , data: [] };
+    return { success: false, data: [] };
   }
 
-  return {success : true, data: data || [] };
+  return { success: true, data: data || [] };
 }
 
 // Create new campaign
@@ -74,11 +89,11 @@ export async function createCampaign(formData) {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return {success : false, error: "You must be logged in" };
+    return { success: false, error: "You must be logged in" };
   }
 
   if (!formData.title || !formData.description || !formData.amountRaising) {
-    return { success : false,error: "Missing required fields" };
+    return { success: false, error: "Missing required fields" };
   }
 
   const { data, error } = await supabase
@@ -96,10 +111,8 @@ export async function createCampaign(formData) {
     .select()
     .single();
 
-    console.log(data)
-    console.log(error)
   if (error) {
-    return { success : false, error: "Failed to create campaign" };
+    return { success: false, error: "Failed to create campaign" };
   }
 
   revalidatePath("/campaigns");
@@ -107,56 +120,25 @@ export async function createCampaign(formData) {
 }
 
 //get campaigns created by a donor
-export async function getCampaignsByUser(){
+export async function getCampaignsByUser() {
   const supabase = await createClient();
 
-  const {data:{user}} = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
-    return {success : false, error: "You must be logged in" };
+    return { success: false, error: "You must be logged in" };
   }
 
-  const {data, error} = await supabase.from("campaigns").select("*").eq("created_by", user.id).eq("is_verified",true);
+  const { data, error } = await supabase
+    .from("campaigns")
+    .select("*")
+    .eq("created_by", user.id);
 
-  if(error){
-    return{success: false, error: error.message}
+  if (error) {
+    return { success: false, error: error.message };
   }
 
-  return {success : true, data: data}
+  return { success: true, data: data };
 }
-
-// Update campaign
-// export async function updateCampaign(campaignId, formData) {
-//   const supabase = await createClient();
-
-//   const {
-//     data: { user },
-//   } = await supabase.auth.getUser();
-
-//   if (!user) {
-//     return { success : false, error: "You must be logged in" };
-//   }
-
-//   // Verify ownership
-//   const { data: campaign } = await supabase
-//     .from("campaigns")
-//     .select("created_by")
-//     .eq("id", campaignId)
-//     .single();
-
-//   if (!campaign || campaign.created_by !== user.id) {
-//     return { success : false, error: "Unauthorized" };
-//   }
-
-//   const { error } = await supabase
-//     .from("campaigns")
-//     .update(formData)
-//     .eq("id", campaignId);
-
-//   if (error) {
-//     return { success : false, error: "Failed to update campaign" };
-//   }
-
-//   revalidatePath(`/campaigns/${campaignId}`);
-//   return { success: true };
-// }

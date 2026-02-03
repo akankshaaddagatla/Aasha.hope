@@ -76,7 +76,7 @@ export default function NGOPage({ params }) {
                   {ngo.logo_url ? (
                     <Image
                       src={ngo.logo_url}
-                      alt={`${ngo.name} logo`}
+                      alt={ngo.name}
                       fill
                       className="object-cover"
                     />
@@ -258,7 +258,7 @@ export default function NGOPage({ params }) {
                 <div className="mt-8 p-6 bg-linear-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200">
                   <div className="flex items-center justify-between mb-3">
                     <h3 className="font-bold text-lg text-gray-900">
-                      Fundraising Goal
+                      Annual Fundraising Goal
                     </h3>
                     <span className="text-sm font-semibold text-green-700">
                       {progressPercentage.toFixed(0)}% Complete

@@ -1,7 +1,7 @@
 "use client"
 
 import { getUser } from '@/app/actions/users.actions'
-import { useRouter } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import { VerifyNGOButton } from '@/components/VerifyNgoButton'
 import { VerifyCampaignButton } from '@/components/VerifyCampaignButton'
 import { getPendingCampaigns, getPendingNGOs, getAllDonations} from '@/app/actions/admin.actions'
@@ -15,15 +15,13 @@ async function checkAdminAuth() {
   const { data: user } = await getUser()
 
   if (!user) {
-    router.push('/login');
-    return;
+    redirect('/login');
   }
 
   const { data: userData } = await getUserById(user.id)
 
   if (userData?.role !== 'admin') {
-    router.push('/')
-    return;
+    redirect('/')
   }
 
   return { user, userData }
@@ -58,7 +56,6 @@ async function getAdminStats() {
 }
 
 export default function AdminDashboard() {
-  const router = useRouter();
   const [userData, setUserData] = useState([]);
   const [stats, setStats] = useState([]);
 
@@ -205,7 +202,7 @@ export default function AdminDashboard() {
                                 ? 'bg-blue-100 text-blue-700' 
                                 : 'bg-red-100 text-red-700'
                             }`}>
-                              NGO: {campaign.ngos.name} {campaign.ngos.is_verified ? '✓' : '✗'}
+                              NGO: {campaign.ngos.name} {campaign.ngos.verification_status=='verified' ? '✓' : '✗'}
                             </span>
                           )}
                         </div>

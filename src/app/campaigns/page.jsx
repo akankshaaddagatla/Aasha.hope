@@ -12,10 +12,11 @@ export default function CampaignBrowse() {
   const getCampaigns = async () => {
     try {
       const { data, error } = await getVerifiedCampaigns();
+
       if (error) {
         console.error("Error", error.message);
       } else {
-        setcampaigns(data || []);
+        setcampaigns(data);
       }
     } catch (error) {
       console.error("Error fetching Campaigns:", error);

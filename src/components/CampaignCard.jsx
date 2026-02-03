@@ -51,7 +51,7 @@ export default function CampaignCard({ campaign }) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
 
         <div className="absolute bottom-1 left-4 right-4 text-white">
-          <h3 className="text-lg font-bold mb-1 line-clamp-2 h-12 overflow-hidden">
+          <h3 className="text-md font-bold mb-3 line-clamp-2 h-12 overflow-hidden">
             {campaign.cause_statement}
           </h3>
         </div>

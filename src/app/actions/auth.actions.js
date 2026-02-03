@@ -40,6 +40,7 @@ export async function signUp(formData) {
     });
 
     if (profileError) {
+      console.log(profileError.message)
       return { error: "Failed to create user profile" };
     }
   }
@@ -112,30 +113,6 @@ export async function getUser() {
     data: profile
   };
 }
-
-// export async function updateProfile(updates) {
-//   const supabase = await createClient();
-
-//   const {
-//     data: { user },
-//   } = await supabase.auth.getUser();
-
-//   if (!user) {
-//     return { error: "Not authenticated" };
-//   }
-
-//   const { error } = await supabase
-//     .from("users")
-//     .update(updates)
-//     .eq("id", user.id);
-
-//   if (error) {
-//     return { error: error.message };
-//   }
-
-//   revalidatePath("/profile");
-//   return { success: true };
-// }
 
 export async function checkRole(requiredRole) {
   const { user } = await getUser();

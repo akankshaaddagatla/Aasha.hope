@@ -50,7 +50,7 @@ export default function NgoCard({ ngo }) {
         <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-transparent"></div>
 
         <div className="absolute bottom-1 left-4 right-4 text-white">
-          <h3 className="text-md font-bold mb-1 line-clamp-2 h-12 overflow-hidden">
+          <h3 className="text-md font-bold mb-3 line-clamp-2 h-12 overflow-hidden">
             {ngo.cause_statement}
           </h3>
         </div>
@@ -70,7 +70,7 @@ export default function NgoCard({ ngo }) {
         {/* Donations Count */}
         <div className="flex items-center gap-1">
           <Users className="w-3 h-3" />
-          <span>{formatCurrency(ngo.subscribers_count)} Donations</span>
+          <span>{formatCurrency(ngo.total_donations)} Donations</span>
         </div>
 
         {/* Raised and Goal - Close together */}

@@ -1,4 +1,6 @@
-import { createClient } from "@/lib/supabase/server";
+"use client";
+
+import { useState, useEffect } from "react";
 import { redirect } from "next/navigation";
 import { getFollowedNGOs } from "@/app/actions/follow.actions";
 import {
@@ -6,39 +8,80 @@ import {
   getTotalDonated,
 } from "@/app/actions/donation.actions";
 import { getFollowedNGOsPosts } from "@/app/actions/posts.actions";
-import { getUserById } from "@/app/actions/users.actions";
-import { getCampaignsByUser } from "@/app/actions/campaign.actions";
+import { getUser, getUserById } from "@/app/actions/users.actions";
+import {
+  getCampaignsByUser,
+  closeCampaign,
+} from "@/app/actions/campaign.actions";
 import Image from "next/image";
 import Link from "next/link";
 
-async function checkDonorAuth() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+export default function DonorDashboard() {
+  const [campaigns, setCampaigns] = useState([]);
+  const [followedNGOs, setFollowedNGOs] = useState([]);
+  const [donations, setDonations] = useState([]);
+  const [totalDonated, setTotalDonated] = useState([]);
+  const [feedPosts, setFeedPosts] = useState([]);
+  const [latestPost, setLatestPost] = useState([]);
+  const [userData, setuserData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [msg, setMsg] = useState("");
 
-  if (!user) {
-    redirect("/login");
+  useEffect(() => {
+    async function init() {
+      try {
+        const { data: user } = await getUser();
+
+        if (!user) {
+          redirect("/login");
+        }
+
+        const { data: userData } = await getUserById(user.id);
+
+        if (userData?.role !== "donor") {
+          redirect("/");
+        }
+
+        const { data: campaigns } = await getCampaignsByUser();
+        const { data: followedNGOs } = await getFollowedNGOs();
+        const { data: donations } = await getSuccessfulDonations();
+        const { data: totalDonated } = await getTotalDonated();
+        const { data: feedPosts } = await getFollowedNGOsPosts();
+        const latestPost =
+          feedPosts && feedPosts.length > 0 ? feedPosts[0] : null;
+        setCampaigns(campaigns);
+        setFollowedNGOs(followedNGOs);
+        setDonations(donations);
+        setTotalDonated(totalDonated);
+        setFeedPosts(feedPosts);
+        setLatestPost(latestPost);
+        setuserData(userData);
+      } catch (error) {
+        console.error("Dashboard error:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    init();
+  }, []);
+
+  const handleclickClose = async (id) => {
+    const { error } = await closeCampaign(id);
+    if (error) {
+      setMsg("Could'nt close campaign");
+    }
+
+    setMsg("Campaign Closed");
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        Loading dashboard...
+      </div>
+    );
   }
-
-  const { data: userData } = await getUserById(user.id);
-
-  if (userData?.role !== "donor") {
-    redirect("/");
-  }
-
-  return { user, userData };
-}
-
-export default async function DonorDashboard() {
-  const { user, userData } = await checkDonorAuth();
-
-  const { data: campaigns } = await getCampaignsByUser();
-  const { data: followedNGOs } = await getFollowedNGOs();
-  const { data: donations } = await getSuccessfulDonations();
-  const { data: totalDonated } = await getTotalDonated();
-  const { data: feedPosts } = await getFollowedNGOsPosts();
-  const latestPost = feedPosts && feedPosts.length > 0 ? feedPosts[0] : null;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -177,7 +220,7 @@ export default async function DonorDashboard() {
                               month: "short",
                               day: "numeric",
                               year: "numeric",
-                            }
+                            },
                           )}
                         </p>
                       </div>
@@ -245,10 +288,14 @@ export default async function DonorDashboard() {
                             {donation.ngo_id ? "NGO" : "Campaign"}
                           </p>
                           <p className="font-semibold">
-                            {donation.ngos?.name || donation.campaigns?.title || "Unknown"}
+                            {donation.ngos?.name ||
+                              donation.campaigns?.title ||
+                              "Unknown"}
                           </p>
                           <p className="text-sm text-gray-500">
-                            {new Date(donation.donated_at || donation.created_at).toLocaleDateString()}
+                            {new Date(
+                              donation.donated_at || donation.created_at,
+                            ).toLocaleDateString()}
                           </p>
                         </div>
                       </div>
@@ -306,7 +353,7 @@ export default async function DonorDashboard() {
               </Link>
             </div>
 
-            {/* Your Campaigns - FIXED */}
+            {/* Your Campaigns */}
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h2 className="text-xl font-bold mb-4">Your Campaigns</h2>
               {campaigns && campaigns.length > 0 ? (
@@ -315,43 +362,57 @@ export default async function DonorDashboard() {
                     const progress =
                       (campaign.amount_raised / campaign.amount_raising) * 100;
                     return (
-                      <Link
+                      <div
                         key={campaign.id}
-                        href={`/campaigns/${campaign.id}`}
-                        className="block p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors cursor-pointer"
+                        className="p-4 rounded-lg bg-purple-100"
                       >
-                        <div className="flex items-start justify-between mb-2">
-                          <h3 className="font-semibold">{campaign.title}</h3>
-                          <span
-                            className={`text-xs px-2 py-1 rounded-full ${
-                              campaign.status === "active"
-                                ? "bg-green-100 text-green-700"
-                                : campaign.status === "completed"
-                                  ? "bg-blue-100 text-blue-700"
-                                  : "bg-gray-100 text-gray-700"
-                            }`}
+                        <div className="flex items-start justify-between mb-4">
+                          <div className="flex">
+                            <Link
+                              href={`/campaigns/${campaign.id}`}
+                              className="font-semibold text-gray-700 mr-5 hover:text-gray-900"
+                            >
+                              {campaign.title}
+                            </Link>
+                            <span
+                              className={`text-xs px-2 py-1 rounded-full ${
+                                campaign.status === "active"
+                                  ? "bg-green-100 text-green-700"
+                                  : campaign.status === "completed"
+                                    ? "bg-blue-100 text-blue-700"
+                                    : "bg-gray-100 text-gray-700"
+                              }`}
+                            >
+                              {campaign.status}
+                            </span>
+                          </div>
+                          <button
+                            className="text-red-600 hover:text-red-800"
+                            onClick={() => {
+                              handleclickClose(campaign.id);
+                            }}
                           >
-                            {campaign.status}
-                          </span>
+                            {campaign.status == "active" ? "close" : ""}
+                          </button>
                         </div>
                         <div className="space-y-2">
                           <div className="w-full bg-gray-200 rounded-full h-2">
                             <div
-                              className="bg-purple-500 h-2 rounded-full transition-all"
+                              className="bg-green-500 h-2 rounded-full"
                               style={{ width: `${Math.min(progress, 100)}%` }}
                             />
                           </div>
                           <div className="flex justify-between text-sm text-gray-600">
                             <span>
-                              ₹{campaign.amount_raised?.toLocaleString() || 0}
+                              ₹{campaign.amount_raised.toLocaleString()}
                             </span>
                             <span>{progress.toFixed(0)}%</span>
                             <span>
-                              ₹{campaign.amount_raising?.toLocaleString() || 0}
+                              ₹{campaign.amount_raising.toLocaleString()}
                             </span>
                           </div>
                         </div>
-                      </Link>
+                      </div>
                     );
                   })}
                 </div>

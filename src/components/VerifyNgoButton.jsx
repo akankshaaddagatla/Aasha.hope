@@ -92,7 +92,7 @@ export function VerifyNGOButton({ ngoId, ngoName }) {
       </div>
 
       {message && (
-        <p className={`mt-2 text-sm ${message.includes('success') ? 'text-green-600' : 'text-red-600'}`}>
+        <p className={`mt-2 text-sm ${message.includes('success') ? 'text-green-600' : 'text-green-600'}`}>
           {message}
         </p>
       )}

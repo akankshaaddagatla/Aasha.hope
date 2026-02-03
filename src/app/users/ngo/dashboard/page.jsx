@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { getUser, getUserById } from "@/app/actions/users.actions";
 import { getMyNGO } from "@/app/actions/ngo.actions";
-import { getCampaignsByNGO } from "@/app/actions/campaign.actions";
+import { getCampaignsByNGO, closeCampaign } from "@/app/actions/campaign.actions";
 import { getPostsByNGO } from "@/app/actions/posts.actions";
 import Link from "next/link";
 
@@ -14,9 +14,19 @@ export default function NGODashboard() {
   const [ngo, setNgo] = useState(null);
   const [campaigns, setCampaigns] = useState([]);
   const [posts, setPosts] = useState([]);
+  const [msg, setMsg] = useState('');
+
+  const handleclickClose = async (id) =>{
+    const {error} = await closeCampaign(id);
+    if(error){
+      setMsg("Could'nt close campaign");
+    }
+
+    setMsg("Campaign Closed")
+  }
 
   useEffect(() => {
-    async function init(){
+    async function init() {
       try {
         const { data: user } = await getUser();
 
@@ -28,7 +38,7 @@ export default function NGODashboard() {
         const { data: userData } = await getUserById(user.id);
         console.log(userData.role);
 
-        if (userData?.role !== "ngo"){
+        if (userData?.role !== "ngo") {
           router.push("/");
           return;
         }
@@ -191,7 +201,7 @@ export default function NGODashboard() {
             </Link>
 
             <Link
-              href="/users/ngo/settings"
+              href="/users/ngo/editProfile"
               className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-orange-500 hover:bg-orange-50 text-center transition"
             >
               <svg
@@ -229,43 +239,49 @@ export default function NGODashboard() {
                   const progress =
                     (campaign.amount_raised / campaign.amount_raising) * 100;
                   return (
-                    <Link
-                      key={campaign.id}
-                      className="p-4 bg-purple-100 rounded-lg"
-                      href={`/campaigns/${campaign.id}`}
-                    >
-                      <div className="flex items-start justify-between mb-2">
-                        <h3 className="font-semibold">{campaign.title}</h3>
-                        <span
-                          className={`text-xs px-2 py-1 rounded-full ${
-                            campaign.status === "active"
-                              ? "bg-green-100 text-green-700"
-                              : campaign.status === "completed"
-                                ? "bg-blue-100 text-blue-700"
-                                : "bg-gray-100 text-gray-700"
-                          }`}
-                        >
-                          {campaign.status}
-                        </span>
-                      </div>
-                      <div className="space-y-2">
-                        <div className="w-full bg-gray-200 rounded-full h-2">
-                          <div
-                            className="bg-green-500 h-2 rounded-full"
-                            style={{ width: `${Math.min(progress, 100)}%` }}
-                          />
+                    <div key={campaign.id} className="p-4 rounded-lg bg-purple-100">
+                        <div className="flex items-start justify-between mb-4">
+                          <div className="flex">
+                            <Link href={`/campaigns/${campaign.id}`} className="font-semibold text-gray-700 mr-5 hover:text-gray-900">{campaign.title}</Link>
+                            <span
+                              className={`text-xs px-2 py-1 rounded-full ${
+                                campaign.status === "active"
+                                  ? "bg-green-100 text-green-700"
+                                  : campaign.status === "completed"
+                                    ? "bg-blue-100 text-blue-700"
+                                    : "bg-gray-100 text-gray-700"
+                              }`}
+                            >
+                              {campaign.status}
+                            </span>
+                          </div>
+                          <button className="text-red-600 hover:text-red-800"
+                                  onClick={()=>{handleclickClose(campaign.id)}}>
+                            {campaign.status=="active" ? "close" : ""}
+                          </button>
                         </div>
-                        <div className="flex justify-between text-sm text-gray-600">
-                          <span>
-                            ₹{campaign.amount_raised.toLocaleString()}
-                          </span>
-                          <span>{progress.toFixed(0)}%</span>
-                          <span>
-                            ₹{campaign.amount_raising.toLocaleString()}
-                          </span>
+                        <div className="space-y-2">
+                          <div className="w-full bg-gray-200 rounded-full h-2">
+                            <div
+                              className="bg-green-500 h-2 rounded-full"
+                              style={{ width: `${Math.min(progress, 100)}%` }}
+                            />
+                          </div>
+                          <div className="flex justify-between text-sm text-gray-600">
+                            <span>
+                              ₹{campaign.amount_raised.toLocaleString()}
+                            </span>
+                            <span>{progress.toFixed(0)}%</span>
+                            <span>
+                              ₹{campaign.amount_raising.toLocaleString()}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    </Link>
+
+                        {msg && (
+                          <p className="text-sm text-green-600">{msg}</p>
+                        )}
+                    </div>
                   );
                 })}
               </div>

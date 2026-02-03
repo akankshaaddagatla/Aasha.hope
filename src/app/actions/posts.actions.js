@@ -1,7 +1,6 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
-import { LucideDatabaseZap } from "lucide-react"
 import { revalidatePath } from "next/cache"
 
 // Get posts by NGO
@@ -106,9 +105,10 @@ export async function createPost(formData) {
       image_url: formData.imageUrl,
     })
     .select()
-    .single()
+    .maybeSingle()
 
   if (error) {
+    console.log(error.message)
     return { error: 'Failed to create post' }
   }
 

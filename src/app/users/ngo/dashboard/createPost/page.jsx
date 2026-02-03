@@ -11,6 +11,7 @@ export default function CreatePostPage() {
   const [loading, setLoading] = useState(false)
   const [ngo, setNGO] = useState(null)
   const [error, setError] = useState('')
+  const [message, setMessage] = useState('')
   const [formData, setFormData] = useState({
     content: '',
     imageUrl: '',
@@ -20,10 +21,10 @@ export default function CreatePostPage() {
     async function loadNGO() {
       const { data : ngo } = await getMyNGO()
       if (!ngo) {
-        alert('Please register your NGO first')
+        setError('Please register your NGO first')
         router.push('/users/ngo/dashboard/registerNgo')
-      } else if (!ngo.is_verified) {
-        alert('Your NGO must be verified before posting updates')
+      } else if (ngo.verification_status != 'verified') {
+        setError('Your NGO must be verified before posting updates')
         router.push('/users/ngo/dashboard')
       } else {
         setNGO(ngo)
@@ -42,6 +43,7 @@ export default function CreatePostPage() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
+    setMessage>('')
     setLoading(true)
 
     if (!ngo) {
@@ -58,10 +60,11 @@ export default function CreatePostPage() {
     })
 
     if (result?.error) {
+      console.log(result.error)
       setError(result.error)
       setLoading(false)
     } else {
-      alert('Post created successfully!')
+      setMessage('Post created successfully!')
       router.push('/users/ngo/dashboard')
     }
   }
@@ -134,6 +137,12 @@ export default function CreatePostPage() {
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded">
               {error}
+            </div>
+          )}
+
+          {message && (
+            <div className="bg-red-50 border border-red-200 text-green-800 px-4 py-3 rounded">
+              {message}
             </div>
           )}
 

@@ -22,6 +22,7 @@ export default function CreateCampaignPage() {
     causeStatement: "",
     campaignStory: "",
     coverImageUrl: "",
+    logoUrl: "",
     amountRaising: "",
   });
 
@@ -51,7 +52,7 @@ export default function CreateCampaignPage() {
           return;
         }
 
-        if (!userNGO.is_verified) {
+        if (userNGO.verification_status != "verified") {
          setError('Your NGO must be verified before creating campaigns');
           router.push("/users/ngo/dashboard");
           return;
@@ -304,6 +305,27 @@ export default function CreateCampaignPage() {
               id="coverImageUrl"
               name="coverImageUrl"
               value={formData.coverImageUrl}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="https://example.com/campaign-image.jpg"
+            />
+            <p className="text-sm text-gray-500 mt-1">
+              Add a compelling image (use Unsplash or Imgur for free images)
+            </p>
+          </div>
+
+          <div>
+            <label
+              htmlFor="logoUrl"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Logo URL
+            </label>
+            <input
+              type="url"
+              id="logoUrl"
+              name="logoUrl"
+              value={formData.logoUrl}
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="https://example.com/campaign-image.jpg"

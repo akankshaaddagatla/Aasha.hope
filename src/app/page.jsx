@@ -59,7 +59,7 @@ export default function Home() {
     <div className="min-h-screen">
       <div>
         <div className="text-center pt-5">
-          <h1 className="text-2xl font-bold text-blue-600">Support Monthly</h1>
+          <h1 className="text-2xl font-bold text-blue-600">Support NGOs</h1>
           <p className="text-lg">
             Be the steady hand that lifts someone up every single month
           </p>

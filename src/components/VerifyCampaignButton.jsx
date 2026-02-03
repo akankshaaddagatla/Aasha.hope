@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { verifyCampaign, closeCampaign } from '@/app/actions/admin.actions'
+import { verifyCampaign, rejectCampaign } from '@/app/actions/admin.actions'
 
 export function VerifyCampaignButton({ campaignId, campaignTitle}) {
   const [loading, setLoading] = useState(false)
@@ -37,7 +37,7 @@ export function VerifyCampaignButton({ campaignId, campaignTitle}) {
     setLoading(true)
     setMessage('')
 
-    const result = await closeCampaign(campaignId)
+    const result = await rejectCampaign(campaignId)
 
     if (result.error) {
       setMessage(result.error)
@@ -90,7 +90,7 @@ export function VerifyCampaignButton({ campaignId, campaignTitle}) {
       </div>
 
       {message && (
-        <p className={`mt-2 text-sm ${message.includes('success') ? 'text-green-600' : 'text-red-600'}`}>
+        <p className={`mt-2 text-sm ${message.includes('success') ? 'text-green-600' : 'text-green-600'}`}>
           {message}
         </p>
       )}

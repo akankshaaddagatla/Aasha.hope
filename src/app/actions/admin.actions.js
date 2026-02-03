@@ -30,7 +30,7 @@ export async function verifyNGO(ngoId) {
   // Verify the NGO
   const { data, error } = await supabase
     .from("ngos")
-    .update({is_verified: true})
+    .update({verification_status: 'verified'})
     .eq("id", ngoId)
     .select()
     .single()
@@ -67,6 +67,18 @@ export async function rejectNgo(ngoId) {
     return { error: "Unauthorized. Admin access required." };
   }
 
+  const { data, error } = await supabase
+    .from("ngos")
+    .update({verification_status: 'rejected'})
+    .eq("id", ngoId)
+    .select()
+    .single()
+
+  if (error) {
+    console.log(error.message);
+    return { error: "Failed to reject NGO" };
+  }
+
   revalidatePath("/users/admin/dashboard");
   return { success: true, message: "Ngo rejected" };
 }
@@ -98,7 +110,7 @@ export async function verifyCampaign(campaignId) {
   const { error } = await supabase
     .from("campaigns")
     .update({
-      is_verified: true,
+      verification_status: "verified",
       status: "active", // Set to active once verified
     })
     .eq("id", campaignId);
@@ -113,7 +125,7 @@ export async function verifyCampaign(campaignId) {
 }
 
 // Reject Campaign - Admin only
-export async function closeCampaign(campaignId) {
+export async function rejectCampaign(campaignId) {
   const supabase = await createClient();
 
   // Check if user is admin
@@ -139,7 +151,8 @@ export async function closeCampaign(campaignId) {
   const { error } = await supabase
     .from("campaigns")
     .update({
-      status: "closed",
+      verification_status: 'rejected',
+      status: 'closed',
     })
     .eq("id", campaignId);
 
@@ -184,7 +197,7 @@ export async function getPendingNGOs() {
       )
     `,
     )
-    .eq("is_verified", false)
+    .eq("verification_status", 'pending')
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -224,7 +237,7 @@ export async function getPendingCampaigns() {
       *,
       ngos (
         name,
-        is_verified
+        verification_status
       ),
       users (
         name,
@@ -232,7 +245,7 @@ export async function getPendingCampaigns() {
       )
     `,
     )
-    .eq("is_verified", false)
+    .eq("verification_status", 'pending')
     .order("created_at", { ascending: false });
 
   if (error) {

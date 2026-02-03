@@ -3,21 +3,21 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 
-export async function getVerifiedNgos(){
+export async function getVerifiedNgos() {
   const supabase = await createClient();
 
-    const { data: ngos, error } = await supabase
-      .from("ngos")
-      .select("*")
-      .eq("is_verified", true)
-      .order("created_at", { ascending: false });
+  const { data: ngos, error } = await supabase
+    .from("ngos")
+    .select("*")
+    .eq("verification_status", "verified")
+    .order("created_at", { ascending: false });
 
-    if (error) {
-      console.error("Error while getting ngos :", error.message);
-      return { success: false, error };
-    }
+  if (error) {
+    console.error("Error while getting ngos :", error.message);
+    return { success: false, error };
+  }
 
-    return { success: true, data: ngos };
+  return { success: true, data: ngos };
 }
 
 export async function getNgoById(id) {
@@ -31,7 +31,7 @@ export async function getNgoById(id) {
       .maybeSingle();
 
     if (error) {
-    //   console.error("Error while getting ngo :", error.message);
+      //   console.error("Error while getting ngo :", error.message);
       return { success: false, error };
     }
 
@@ -79,7 +79,7 @@ export async function createNGO(formData) {
     .single();
 
   if (error) {
-    return { error: "Failed to create NGO" };
+    return { error: error.message };
   }
 
   revalidatePath("/ngos");
@@ -106,44 +106,75 @@ export async function getMyNGO() {
     .maybeSingle();
 
   if (error) {
-    console.log("Data",error.message);
+    console.log("Data", error.message);
     return { data: null };
   }
 
   return { data: data };
 }
 
-// export async function updateNGO(ngoId, formData) {
-//   const supabase = await createClient();
+export async function updateNGO(ngoId, formData) {
+  const supabase = await createClient();
 
-//   const {
-//     data: { user },
-//   } = await supabase.auth.getUser();
+  // Verify ownership
 
-//   if (!user) {
-//     return { error: "You must be logged in" };
-//   }
+  const { error } = await supabase
+    .from("ngos")
+    .update(formData)
+    .eq("id", ngoId);
 
-//   // Verify ownership
-//   const { data: ngo } = await supabase
-//     .from("ngos")
-//     .select("owner_id")
-//     .eq("id", ngoId)
-//     .maybeSingle();
+  if (error) {
+    return { error: "Failed to update NGO" };
+  }
 
-//   if (!ngo || ngo.owner_id !== user.id) {
-//     return { error: "Unauthorized" };
-//   }
+  revalidatePath(`/ngos/${ngoId}`);
+  return { success: true };
+}
 
-//   const { error } = await supabase
-//     .from("ngos")
-//     .update(formData)
-//     .eq("id", ngoId);
+export async function updateNgo(ngoId, formData) {
+  const supabase = await createClient();
 
-//   if (error) {
-//     return { error: "Failed to update NGO" };
-//   }
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-//   revalidatePath(`/ngos/${ngoId}`);
-//   return { success: true };
-// }
+  if (!user) {
+    return { error: "You must be logged in" };
+  }
+
+  const { data: ngo } = await supabase
+    .from("ngos")
+    .select("owner_id")
+    .eq("id", ngoId)
+    .maybeSingle();
+
+  if (!ngo || ngo.owner_id !== user.id) {
+    return { error: "Unauthorized" };
+  }
+
+  const updateData = {
+    name: formData.get("name"),
+    description: formData.get("description"),
+    cause_statement: formData.get("cause_statement"),
+    logo_url: formData.get("logo_url"),
+    cover_image_url: formData.get("cover_image_url"),
+  };
+
+  const amount = formData.get("amount_raising");
+  if (amount && !isNaN(amount)) {
+    updateData.amount_raising = Number(amount);
+  }
+
+  Object.keys(updateData).forEach(
+    (key) => updateData[key] === "" && delete updateData[key],
+  );
+
+  const { error } = await supabase
+    .from("ngos")
+    .update(updateData)
+    .eq("id", ngoId);
+
+  if (error) throw new Error(error.message);
+
+  return { success: true };
+}

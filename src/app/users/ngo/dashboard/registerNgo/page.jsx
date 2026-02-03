@@ -10,6 +10,7 @@ export default function RegisterNGOPage() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [message, setMessage] = useState('')
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -40,6 +41,7 @@ export default function RegisterNGOPage() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
+    setMessage('')
     setLoading(true)
 
     const result = await createNGO(formData)
@@ -48,7 +50,7 @@ export default function RegisterNGOPage() {
       setError(result.error)
       setLoading(false)
     } else {
-      alert('NGO registered successfully! Waiting for admin approval.')
+      setMessage('NGO registered successfully! Waiting for admin approval.')
       router.push('/users/ngo/dashboard')
     }
   }
@@ -56,6 +58,11 @@ export default function RegisterNGOPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-3xl mx-auto px-4">
+        {message && (
+            <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded">
+              {message}
+            </div>
+          )}
         {/* Header */}
         <div className="mb-8">
           <Link
@@ -192,7 +199,7 @@ export default function RegisterNGOPage() {
               placeholder="e.g., 5000000"
             />
             <p className="text-sm text-gray-500 mt-1">
-              Optional: Your annual fundraising target
+              Your annual fundraising target
             </p>
           </div>
 

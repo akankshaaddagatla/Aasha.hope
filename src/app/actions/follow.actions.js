@@ -5,7 +5,6 @@ import { revalidatePath } from "next/cache";
 
 export async function followNGO(ngoId) {
   const supabase = await createClient();
-  console.log("FOLLOW NGO CALLED:", ngoId);
 
   const {
     data: { user },
@@ -19,7 +18,7 @@ export async function followNGO(ngoId) {
   // Check if NGO exists and is verified
   const { data: ngo, error: ngoError } = await supabase
     .from("ngos")
-    .select("id, is_verified, followers_count")
+    .select("id, verification_status, followers_count")
     .eq("id", ngoId)
     .maybeSingle();
 
@@ -27,7 +26,7 @@ export async function followNGO(ngoId) {
     return { error: "NGO not found" };
   }
 
-  if (!ngo.is_verified) {
+  if (ngo.verification_status != 'verified') {
     return { error: "This NGO is not verified yet" };
   }
 
@@ -48,8 +47,6 @@ export async function followNGO(ngoId) {
     ngo_id: ngoId,
     user_id: user.id,
   }).select()
-
-  console.log("FOLLOW INSERT:", followData);
 
   if (followError) {
     return { error: "Failed to follow NGO" };
@@ -252,7 +249,7 @@ export async function getNGOFollowers(ngoId) {
     .order("followed_at", { ascending: false });
 
   if (error) {
-    // console.error("Error fetching followers:", error);
+    console.error("Error fetching followers:", error);
     return { data: [] };
   }
 

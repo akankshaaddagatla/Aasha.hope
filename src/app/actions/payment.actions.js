@@ -11,7 +11,6 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 })
 
-
 //  Create Razorpay Order
 export async function createPaymentOrder(formData) {
   const supabase = await createClient()
@@ -24,6 +23,55 @@ export async function createPaymentOrder(formData) {
 
   const { amount, ngoId, campaignId, donatedBy } = formData
 
+  // Validate campaign before creating order
+  if (campaignId) {
+    const { data: campaign, error: campaignError } = await supabase
+      .from('campaigns')
+      .select('amount_raising, amount_raised, status')
+      .eq('id', campaignId)
+      .single()
+    
+    if (campaignError || !campaign) {
+      return { error: 'Campaign not found' }
+    }
+
+    const currentRaised = campaign.amount_raised || 0
+    const remaining = campaign.amount_raising - currentRaised
+
+    if (remaining <= 0) {
+      return { error: 'This campaign has reached its goal' }
+    }
+
+    if (amount > remaining) {
+      return { 
+        error: `This campaign only needs ₹${remaining.toFixed(2)} more to reach its goal. Please donate that amount or less.` 
+      }
+    }
+  }else{
+     const { data: ngo, error: ngoError } = await supabase
+      .from('ngos')
+      .select('amount_raising, amount_raised')
+      .eq('id', ngoId)
+      .single()
+    
+    if (ngoError || !ngo) {
+      return { error: 'NGO not found' }
+    }
+
+    const currentRaised = ngo.amount_raised || 0
+    const remaining = ngo.amount_raising - currentRaised
+
+    if (remaining <= 0) {
+      return { error: 'This NGO has reached its goal' }
+    }
+
+    if (amount > remaining) {
+      return { 
+        error: `This NGO only needs ₹${remaining.toFixed(2)} more to reach its goal. Please donate that amount or less.` 
+      }
+    }
+  }
+
   try {
     // Create Razorpay order
     const order = await razorpay.orders.create({
@@ -31,6 +79,7 @@ export async function createPaymentOrder(formData) {
       currency: 'INR',
       receipt: `receipt_${Date.now()}`,
     })
+
 
     // Create pending donation in database
     const { data: donation, error } = await supabase
@@ -48,8 +97,9 @@ export async function createPaymentOrder(formData) {
       .select()
       .single()
 
+
     if (error) {
-      console.log(error.message)
+      console.log(error)
       return { error: 'Failed to create donation record' }
     }
 
@@ -103,10 +153,10 @@ export async function verifyPayment(paymentData) {
     .single()
 
   if (error) {
+    console.error('Donation update error:', error)
     return { error: 'Failed to update donation' }
   }
 
   revalidatePath('/users/donor/dashboard')
   return { success: true, donationId }
 }
-

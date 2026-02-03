@@ -1,20 +1,11 @@
-// app/ngos/[id]/updates/page.jsx
-"use server"
+"use client"
 
-import { getNgoById } from '@/app/actions/ngo.actions'
 import { getFollowedNGOsPosts } from '@/app/actions/posts.actions'
-import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 
 export default async function AllUpdatesPage({params}) {
-  const {id} = await params;
-//   const {data : ngo, success} = await getNgoById(id)
-
-//   if (!success) {
-//     notFound()
-//   }
-
+  // const {id} = await params;
   const { data : posts} = await getFollowedNGOsPosts()
 
   return (

@@ -6,19 +6,21 @@ import { getVerifiedNgos } from "../actions/ngo.actions";
 import NgoNav from "@/components/NgoNav";
 
 export default function NgosBrowse() {
-  const [ngos, setngos] = useState([]);
+  const [ngos, setngos] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const getNgos = async () => {
     try {
       const { data, error } = await getVerifiedNgos();
       if (error) {
-        console.Error("Error", error.message);
+        console.error("Error", error.message);
       } else {
-        setngos(data || []);
+        console.log("HEYYY")
+        console.log(data)
+        setngos(data);
       }
     } catch (error) {
-      console.Error("Error fetching NGOs:", error);
+      console.error("Error fetching NGOs:", error);
     } finally {
       setLoading(false);
     }
