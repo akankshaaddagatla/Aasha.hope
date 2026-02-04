@@ -64,9 +64,9 @@ export default function DonorProfile() {
             </div>
             <button
               onClick={() => router.push("/users/editUserProfile")}
-              className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
             >
-              ✏️ Edit Profile
+              Edit
             </button>
           </div>
         </div>
@@ -117,10 +117,10 @@ export default function DonorProfile() {
 
               {/* Edit Button */}
               <button
-                onClick={() => router.push("/users/editUserProfile")}
-                className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                onClick={() => router.push("/users/ngo/editProfile")}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
               >
-                ✏️ Edit Your NGO
+                Edit Your NGO
               </button>
             </div>
 

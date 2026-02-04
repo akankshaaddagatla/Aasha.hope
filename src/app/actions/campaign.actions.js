@@ -16,17 +16,19 @@ export async function getVerifiedCampaigns() {
         name,
         cover_image_url
       )
-    `,
+    `
     )
     .eq("verification_status", "verified")
     .eq("status", "active")
     .order("created_at", { ascending: false });
 
+  console.log(data)
+
   if (error) {
     return { success: false, error: error };
   }
 
-  return { success: true, data: data || [] };
+  return { success: true, data: data || []};
 }
 
 export async function closeCampaign(campaignId) {
