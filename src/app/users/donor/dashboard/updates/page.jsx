@@ -1,12 +1,26 @@
 "use client"
 
+import { useState, useEffect } from 'react'
 import { getFollowedNGOsPosts } from '@/app/actions/posts.actions'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export default async function AllUpdatesPage({params}) {
-  // const {id} = await params;
-  const { data : posts} = await getFollowedNGOsPosts()
+export default function AllUpdatesPage() {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(()=>{
+    async function init(){
+      const { data, error} = await getFollowedNGOsPosts()
+      if(error){
+        console.error("Error getting posts", error.message)
+      }
+
+      setPosts(data);
+    }
+    
+    init()
+  },[]);
+  
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">

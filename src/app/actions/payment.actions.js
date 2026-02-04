@@ -52,9 +52,10 @@ export async function createPaymentOrder(formData) {
       .from('ngos')
       .select('amount_raising, amount_raised')
       .eq('id', ngoId)
-      .single()
+      .maybeSingle()
     
     if (ngoError || !ngo) {
+      console.log(ngoError)
       return { error: 'NGO not found' }
     }
 
@@ -99,7 +100,7 @@ export async function createPaymentOrder(formData) {
 
 
     if (error) {
-      console.log(error)
+      console.log(error.message)
       return { error: 'Failed to create donation record' }
     }
 

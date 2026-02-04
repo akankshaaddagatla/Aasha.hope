@@ -14,13 +14,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "NGO Connect",
-  description: "Donate to verified NGOs",
+  title: "Aasha.hope",
+  description: "Donate to verified NGOs and campaigns, follow ngos to observe their work.",
   keywords: ["donation", "NGO", "charity", "non-profit"],
   authors: [{ name: "Your Name" }],
   openGraph: {
-    title: "NGO Connect",
-    description: "Support verified NGOs",
+    title: "Aasha.hope",
+    description: "Support verified NGOs and campaigns",
     type: "website",
   },
 };

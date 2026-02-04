@@ -19,9 +19,9 @@ export function VerifyNGOButton({ ngoId, ngoName }) {
     console.log(result)
 
     if (result.error) {
-      setMessage(result.error)
+      setMessage("Error verifying NGO")
     } else {
-      setMessage(result.message)
+      setMessage("NGO verified Successfully")
       // Refresh the page after 1 second
       setTimeout(() => {
         window.location.reload()
@@ -42,9 +42,9 @@ export function VerifyNGOButton({ ngoId, ngoName }) {
     const result = await rejectNgo(ngoId)
 
     if (result.error) {
-      setMessage(result.error)
+      setMessage("Error rejecting NGO")
     } else {
-      setMessage(result.message)
+      setMessage("NGO rejected Successfully")
       setTimeout(() => {
         window.location.reload()
       }, 1000)
@@ -92,7 +92,7 @@ export function VerifyNGOButton({ ngoId, ngoName }) {
       </div>
 
       {message && (
-        <p className={`mt-2 text-sm ${message.includes('success') ? 'text-green-600' : 'text-green-600'}`}>
+        <p className={`mt-2 text-sm ${message.includes('Successfully') ? 'text-green-600' : 'text-red-600'}`}>
           {message}
         </p>
       )}

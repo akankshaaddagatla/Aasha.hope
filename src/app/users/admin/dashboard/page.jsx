@@ -152,7 +152,7 @@ export default function AdminDashboard() {
                     
                     {ngo.cause_statement && (
                       <div className="mb-3 p-3 bg-white rounded border border-yellow-200">
-                        <p className="text-xs font-semibold text-gray-700 mb-1">Mission Statement:</p>
+                        <p className="text-xs font-semibold text-gray-700 mb-1">Mission Statement</p>
                         <p className="text-sm text-gray-600">{ngo.cause_statement}</p>
                       </div>
                     )}
@@ -194,15 +194,15 @@ export default function AdminDashboard() {
                         <h3 className="font-bold text-lg mb-1">{campaign.title}</h3>
                         <div className="flex flex-wrap gap-2 text-xs mb-2">
                           <span className="bg-green-100 text-green-700 px-2 py-1 rounded font-semibold">
-                            Goal: ₹{campaign.amount_raising.toLocaleString()}
+                            Goal : ₹{campaign.amount_raising.toLocaleString()}
                           </span>
                           {campaign.ngos && (
                             <span className={`px-2 py-1 rounded font-semibold ${
-                              campaign.ngos.is_verified 
-                                ? 'bg-blue-100 text-blue-700' 
+                              campaign.ngos.verification_status == 'verified' 
+                                ? 'bg-green-100 text-green-700' 
                                 : 'bg-red-100 text-red-700'
                             }`}>
-                              NGO: {campaign.ngos.name} {campaign.ngos.verification_status=='verified' ? '✓' : '✗'}
+                              NGO : {campaign.ngos.name} {campaign.ngos.verification_status=='verified' ? '✓' : '✗'}
                             </span>
                           )}
                         </div>
@@ -212,7 +212,7 @@ export default function AdminDashboard() {
 
                     {campaign.cause_statement && (
                       <div className="mb-3 p-3 bg-white rounded border border-orange-200">
-                        <p className="text-xs font-semibold text-gray-700 mb-1">Campaign Details:</p>
+                        <p className="text-xs font-semibold text-gray-700 mb-1">Campaign Mission</p>
                         <p className="text-sm text-gray-600">{campaign.cause_statement}</p>
                       </div>
                     )}
@@ -223,7 +223,7 @@ export default function AdminDashboard() {
                       </span>
                       {campaign.users && (
                         <span className="text-gray-500">
-                          • By: {campaign.users.full_name}
+                          By: {campaign.users.name}
                         </span>
                       )}
                     </div>
@@ -246,40 +246,6 @@ export default function AdminDashboard() {
             )}
           </div>
         </div>
-
-        {/* Quick Links
-        <div className="bg-white rounded-xl shadow-lg p-6">
-          <h2 className="text-2xl font-bold mb-4">Admin Tools</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Link href="/users/admin/all-ngos" className="p-6 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 text-center transition">
-              <svg className="w-10 h-10 text-blue-600 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-              </svg>
-              <p className="font-semibold">All NGOs</p>
-            </Link>
-            
-            <Link href="/users/admin/all-campaigns" className="p-6 border-2 border-dashed border-gray-300 rounded-lg hover:border-purple-500 hover:bg-purple-50 text-center transition">
-              <svg className="w-10 h-10 text-purple-600 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-              <p className="font-semibold">All Campaigns</p>
-            </Link>
-            
-            <Link href="/users/admin/all-users" className="p-6 border-2 border-dashed border-gray-300 rounded-lg hover:border-green-500 hover:bg-green-50 text-center transition">
-              <svg className="w-10 h-10 text-green-600 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-              </svg>
-              <p className="font-semibold">All Users</p>
-            </Link>
-            
-            <Link href="/users/admin/donations" className="p-6 border-2 border-dashed border-gray-300 rounded-lg hover:border-orange-500 hover:bg-orange-50 text-center transition">
-              <svg className="w-10 h-10 text-orange-600 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <p className="font-semibold">All Donations</p>
-            </Link>
-          </div> */}
-        {/* </div> */}
       </div>
     </div>
   );

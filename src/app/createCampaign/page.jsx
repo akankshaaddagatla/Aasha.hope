@@ -49,13 +49,11 @@ export default function CreateCampaignPage() {
         if (!userNGO) {
           setError('Please register your NGO first');
           router.push("/users/ngo/dashboard/registerNgo");
-          return;
         }
 
         if (userNGO.verification_status != "verified") {
-         setError('Your NGO must be verified before creating campaigns');
+          setError('Your NGO must be verified before creating campaigns');
           router.push("/users/ngo/dashboard");
-          return;
         }
 
         setNGO(userNGO);

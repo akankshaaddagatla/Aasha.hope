@@ -364,8 +364,15 @@ export default function DonorDashboard() {
                     return (
                       <div
                         key={campaign.id}
-                        className="p-4 rounded-lg bg-purple-100"
+                        className={`p-4 rounded-lg ${
+                          campaign.verification_status == "verified"
+                            ? "bg-green-100"
+                            : campaign.verification_status == "rejected"
+                              ? "bg-red-100"
+                              : "bg-gray-100"
+                        }`}
                       >
+                        {msg && <p className="text-sm text-red-600">{msg}</p>}
                         <div className="flex items-start justify-between mb-4">
                           <div className="flex">
                             <Link

@@ -18,9 +18,9 @@ export function VerifyCampaignButton({ campaignId, campaignTitle}) {
     const result = await verifyCampaign(campaignId)
 
     if (result.error) {
-      setMessage(result.error)
+      setMessage("Error Verifying Campaign")
     } else {
-      setMessage(result.message)
+      setMessage("Campaign Verified Successfully")
       setTimeout(() => {
         window.location.reload()
       }, 1000)
@@ -40,9 +40,9 @@ export function VerifyCampaignButton({ campaignId, campaignTitle}) {
     const result = await rejectCampaign(campaignId)
 
     if (result.error) {
-      setMessage(result.error)
+      setMessage("Error rejecting campaign")
     } else {
-      setMessage(result.message)
+      setMessage("Campaign rejected Successfully")
       setTimeout(() => {
         window.location.reload()
       }, 1000)
@@ -90,7 +90,7 @@ export function VerifyCampaignButton({ campaignId, campaignTitle}) {
       </div>
 
       {message && (
-        <p className={`mt-2 text-sm ${message.includes('success') ? 'text-green-600' : 'text-green-600'}`}>
+        <p className={`mt-2 text-sm ${message.includes('Successfully') ? 'text-green-600' : 'text-red-600'}`}>
           {message}
         </p>
       )}

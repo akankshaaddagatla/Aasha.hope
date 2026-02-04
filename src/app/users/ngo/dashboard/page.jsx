@@ -4,7 +4,10 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { getUser, getUserById } from "@/app/actions/users.actions";
 import { getMyNGO } from "@/app/actions/ngo.actions";
-import { getCampaignsByNGO, closeCampaign } from "@/app/actions/campaign.actions";
+import {
+  getCampaignsByNGO,
+  closeCampaign,
+} from "@/app/actions/campaign.actions";
 import { getPostsByNGO } from "@/app/actions/posts.actions";
 import Link from "next/link";
 
@@ -14,16 +17,17 @@ export default function NGODashboard() {
   const [ngo, setNgo] = useState(null);
   const [campaigns, setCampaigns] = useState([]);
   const [posts, setPosts] = useState([]);
-  const [msg, setMsg] = useState('');
+  const [error, setError] = useState("");
+  const [msg, setMsg] = useState("");
 
-  const handleclickClose = async (id) =>{
-    const {error} = await closeCampaign(id);
-    if(error){
+  const handleclickClose = async (id) => {
+    const { error } = await closeCampaign(id);
+    if (error) {
       setMsg("Could'nt close campaign");
     }
 
-    setMsg("Campaign Closed")
-  }
+    setMsg("Campaign Closed");
+  };
 
   useEffect(() => {
     async function init() {
@@ -68,6 +72,23 @@ export default function NGODashboard() {
     init();
   }, []);
 
+  const handlePostNCampaign = (type) => {
+    if (ngo.verification_status !== "verified") {
+      setError(
+        type == 'post'
+          ? "NGO must be verified to post updates!"
+          : "NGO must be verified to create a campaign!",
+      );
+      return;
+    }
+
+    if (type == 'post') {
+      router.push("/users/ngo/dashboard/createPost");
+    } else {
+      router.push("/createCampaign");
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -105,6 +126,7 @@ export default function NGODashboard() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
+        
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
@@ -131,11 +153,19 @@ export default function NGODashboard() {
         </div>
 
         {/* Quick Actions */}
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded m-2">
+            {error}
+          </div>
+        )}
+
         <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
           <h2 className="text-xl font-bold mb-4">Quick Actions</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Link
-              href="/users/ngo/dashboard/createPost"
+            <button
+              onClick={() => {
+                handlePostNCampaign("post");
+              }}
               className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 text-center transition"
             >
               <svg
@@ -152,10 +182,12 @@ export default function NGODashboard() {
                 />
               </svg>
               <p className="font-semibold">Post Update</p>
-            </Link>
+            </button>
 
-            <Link
-              href="/createCampaign"
+            <button
+              onClick={() => {
+                handlePostNCampaign("campaign");
+              }}
               className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-purple-500 hover:bg-purple-50 text-center transition"
             >
               <svg
@@ -172,7 +204,7 @@ export default function NGODashboard() {
                 />
               </svg>
               <p className="font-semibold">New Campaign</p>
-            </Link>
+            </button>
 
             <Link
               href={`/ngos/${ngo.id}`}
@@ -239,48 +271,63 @@ export default function NGODashboard() {
                   const progress =
                     (campaign.amount_raised / campaign.amount_raising) * 100;
                   return (
-                    <div key={campaign.id} className="p-4 rounded-lg bg-purple-100">
-                        <div className="flex items-start justify-between mb-4">
-                          <div className="flex">
-                            <Link href={`/campaigns/${campaign.id}`} className="font-semibold text-gray-700 mr-5 hover:text-gray-900">{campaign.title}</Link>
-                            <span
-                              className={`text-xs px-2 py-1 rounded-full ${
-                                campaign.status === "active"
-                                  ? "bg-green-100 text-green-700"
-                                  : campaign.status === "completed"
-                                    ? "bg-blue-100 text-blue-700"
-                                    : "bg-gray-100 text-gray-700"
-                              }`}
-                            >
-                              {campaign.status}
-                            </span>
-                          </div>
-                          <button className="text-red-600 hover:text-red-800"
-                                  onClick={()=>{handleclickClose(campaign.id)}}>
-                            {campaign.status=="active" ? "close" : ""}
-                          </button>
+                    <div
+                      key={campaign.id}
+                      className={`p-4 rounded-lg ${
+                        campaign.verification_status == 'verified'
+                        ? "bg-green-100"
+                        : campaign.verification_status == 'rejected'
+                         ? "bg-red-100"
+                         : "bg-gray-100"
+                      }`}
+                    >
+                      {msg && (<p className="text-sm text-red-600">{msg}</p>)}
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex">
+                          <Link
+                            href={`/campaigns/${campaign.id}`}
+                            className="font-semibold text-gray-700 mr-5 hover:text-gray-900"
+                          >
+                            {campaign.title}
+                          </Link>
+                          <span
+                            className={`text-xs px-2 py-1 rounded-full mr-3 ${
+                              campaign.status === "active"
+                                ? "bg-green-100 text-green-700"
+                                : campaign.status === "completed"
+                                  ? "bg-blue-100 text-blue-700"
+                                  : "bg-gray-100 text-gray-700"
+                            }`}
+                          >
+                            {campaign.status}
+                          </span>
                         </div>
-                        <div className="space-y-2">
-                          <div className="w-full bg-gray-200 rounded-full h-2">
-                            <div
-                              className="bg-green-500 h-2 rounded-full"
-                              style={{ width: `${Math.min(progress, 100)}%` }}
-                            />
-                          </div>
-                          <div className="flex justify-between text-sm text-gray-600">
-                            <span>
-                              ₹{campaign.amount_raised.toLocaleString()}
-                            </span>
-                            <span>{progress.toFixed(0)}%</span>
-                            <span>
-                              ₹{campaign.amount_raising.toLocaleString()}
-                            </span>
-                          </div>
+                        <button
+                          className="text-red-600 hover:text-red-800"
+                          onClick={() => {
+                            handleclickClose(campaign.id);
+                          }}
+                        >
+                          {campaign.status == "active" ? "close" : ""}
+                        </button>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="w-full bg-gray-200 rounded-full h-2">
+                          <div
+                            className="bg-green-500 h-2 rounded-full"
+                            style={{ width: `${Math.min(progress, 100)}%` }}
+                          />
                         </div>
-
-                        {msg && (
-                          <p className="text-sm text-green-600">{msg}</p>
-                        )}
+                        <div className="flex justify-between text-sm text-gray-600">
+                          <span>
+                            ₹{campaign.amount_raised.toLocaleString()}
+                          </span>
+                          <span>{progress.toFixed(0)}%</span>
+                          <span>
+                            ₹{campaign.amount_raising.toLocaleString()}
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   );
                 })}
