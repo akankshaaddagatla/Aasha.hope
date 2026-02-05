@@ -111,20 +111,8 @@ export default function NgoCard({ ngo }) {
         <div
           className={`transition-all duration-300 ${isHovered ? "opacity-100" : "opacity-0 max-h-0 overflow-hidden"}`}
         >
-          {/* Two Buttons Layout */}
-          {/* <div className="flex flex-row gap-3 h-full justify-center"> */}
-          {/* <button className="w-full bg-red-700 hover:bg-red-800 text-white font-medium py-2 px-3 rounded-lg text-sm transition-colors duration-200 shadow-md hover:shadow-lg"
-                    >
-              Become a monthly supporter
-            // </button> */}
-          {/* // <button className="w-full border-2 border-red-600 text-red-600 hover:bg-blue-50 font-medium py-2 px-3 rounded-lg text-sm transition-colors duration-200"
-            //         onClick={()=>router.push('/donation')}>
-            //   Donate now
-            // </button>
-          </div> */}
-
           <div className="flex flex-row gap-3 h-full justify-center">
-            <Link className="w-full bg-green-700 hover:bg-green-800 text-white text-center font-medium py-2 px-3 rounded-lg text-sm transition-colors duration-200 shadow-md hover:shadow-lg" 
+            <Link className="w-full bg-red-700 hover:bg-red-800 text-white text-center font-medium py-2 px-3 rounded-lg text-sm transition-colors duration-200 shadow-md hover:shadow-lg" 
                   href={`/donation?ngoId=${ngo.id}&ngoName=${ngo.name}`}>
                   Donate Now
             </Link>

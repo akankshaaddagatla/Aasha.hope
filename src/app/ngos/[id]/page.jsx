@@ -421,7 +421,7 @@ export default function NGOPage({ params }) {
                   <div className="space-y-4">
                     <Link
                       href={`/campaigns/${latestCampaign.id}`}
-                      className="block border border-gray-200 rounded-xl overflow-hidden hover:shadow-xl hover:border-orange-300 transition-all group"
+                      className="block shadow-sm rounded-xl overflow-hidden hover:shadow-lg transition-all group"
                     >
                       {latestCampaign.cover_image_url && (
                         <div className="relative h-32 overflow-hidden">
@@ -434,7 +434,7 @@ export default function NGOPage({ params }) {
                         </div>
                       )}
                       <div className="p-4">
-                        <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-orange-600 transition-colors">
+                        <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-green-600 transition-colors">
                           {latestCampaign.title}
                         </h3>
                         <p className="text-gray-600 text-sm mb-3 line-clamp-2">
@@ -443,7 +443,7 @@ export default function NGOPage({ params }) {
                         <div className="space-y-2">
                           <div className="w-full bg-gray-200 rounded-full h-2">
                             <div
-                              className="bg-linear-to-r from-orange-500 to-red-600 h-2 rounded-full"
+                              className="bg-green-500 h-2 rounded-full"
                               style={{
                                 width: `${Math.min((latestCampaign.amount_raised / latestCampaign.amount_raising) * 100, 100)}%`,
                               }}
@@ -453,7 +453,7 @@ export default function NGOPage({ params }) {
                             <span className="text-gray-600">
                               ₹{latestCampaign.amount_raised.toLocaleString()}
                             </span>
-                            <span className="font-semibold text-orange-600">
+                            <span className="font-semibold text-green-600">
                               {(
                                 (latestCampaign.amount_raised /
                                   latestCampaign.amount_raising) *

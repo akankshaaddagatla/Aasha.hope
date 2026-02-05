@@ -115,10 +115,10 @@ export default function DonorProfile() {
 
         {/* Recent Donations */}
         <div className="bg-white rounded-xl shadow-2xl p-6">
-          <h2 className="text-2xl font-bold mb-4">Recent Donations</h2>
+          <h2 className="text-2xl font-bold mb-4">Donations History</h2>
           {donations && donations.length > 0 ? (
             <div className="space-y-4">
-              {donations.slice(0, 5).map((donation) => (
+              {donations.map((donation) => (
                 <div
                   key={donation.id}
                   className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"

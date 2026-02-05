@@ -242,9 +242,6 @@ export default function CreateCampaignPage() {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="Brief overview of the campaign (2-3 sentences)"
             />
-            <p className="text-sm text-gray-500 mt-1">
-              {formData.description.length} characters
-            </p>
           </div>
 
           {/* Mission Statement */}
@@ -307,9 +304,6 @@ export default function CreateCampaignPage() {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="https://example.com/campaign-image.jpg"
             />
-            <p className="text-sm text-gray-500 mt-1">
-              Add a compelling image (use Unsplash or Imgur for free images)
-            </p>
           </div>
 
           <div>
@@ -317,7 +311,7 @@ export default function CreateCampaignPage() {
               htmlFor="logoUrl"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Logo URL
+              Profile Picture URL
             </label>
             <input
               type="url"
@@ -328,9 +322,6 @@ export default function CreateCampaignPage() {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="https://example.com/campaign-image.jpg"
             />
-            <p className="text-sm text-gray-500 mt-1">
-              Add a compelling image (use Unsplash or Imgur for free images)
-            </p>
           </div>
 
           {/* Fundraising Goal */}
@@ -353,7 +344,7 @@ export default function CreateCampaignPage() {
               placeholder="e.g., 2500000"
             />
             <p className="text-sm text-gray-500 mt-1">
-              How much money do you need to raise? Be realistic.
+              How much money do you need to raise?
             </p>
           </div>
 
@@ -369,7 +360,6 @@ export default function CreateCampaignPage() {
                 </li>
                 <li>Be transparent about where the money will go</li>
                 <li>Provide proof or documentation during review if needed</li>
-                <li>Share regular updates once your campaign is live</li>
                 <li>Respond to questions from potential donors</li>
               </ul>
             </div>

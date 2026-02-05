@@ -74,7 +74,7 @@ export default function Home() {
           ) : (
             <div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-                {ngos.map((ngo) => (
+                {ngos.slice(0,6).map((ngo) => (
                   <NgoCard key={ngo.id} ngo={ngo} />
                 ))}
               </div>
@@ -100,7 +100,7 @@ export default function Home() {
           ) : (
             <div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-                {campaigns.map((cam) => (
+                {campaigns.slice(0,6).map((cam) => (
                   <CampaignCard key={cam.id} campaign={cam} />
                 ))}
               </div>

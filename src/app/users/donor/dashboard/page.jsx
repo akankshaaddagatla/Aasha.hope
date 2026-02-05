@@ -264,7 +264,7 @@ export default function DonorDashboard() {
               <h2 className="text-2xl font-bold mb-4">Recent Donations</h2>
               {donations && donations.length > 0 ? (
                 <div className="space-y-4">
-                  {donations.slice(0, 5).map((donation) => (
+                  {donations.slice(0, 3).map((donation) => (
                     <div
                       key={donation.id}
                       className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
