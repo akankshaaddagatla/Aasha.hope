@@ -35,7 +35,7 @@ export default function NgoCard({ ngo }) {
 
   return (
     <div
-      className="relative bg-white rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-200 w-full max-w-sm mx-auto shadow-md flex flex-col"
+      className="relative bg-white rounded-lg overflow-hidden hover:shadow-4xl transition-shadow duration-300 border border-gray-200 w-full max-w-sm mx-auto shadow-md flex flex-col"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -75,7 +75,7 @@ export default function NgoCard({ ngo }) {
 
         {/* Raised and Goal - Close together */}
         <div className="flex items-baseline gap-1">
-          <span className="font-medium text-red-700">
+          <span className="font-medium text-green-600">
             ₹{formatCurrency(ngo.amount_raised)} raised
           </span>
           <span className="text-gray-500">of</span>
@@ -100,7 +100,7 @@ export default function NgoCard({ ngo }) {
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
               <div
-                className="bg-amber-500 h-2 rounded-full transition-all duration-700"
+                className="bg-green-500 h-2 rounded-full transition-all duration-700"
                 style={{ width: `${progressPercentage}%` }}
               ></div>
             </div>
@@ -124,7 +124,7 @@ export default function NgoCard({ ngo }) {
           </div> */}
 
           <div className="flex flex-row gap-3 h-full justify-center">
-            <Link className="w-full bg-red-700 hover:bg-red-800 text-white text-center font-medium py-2 px-3 rounded-lg text-sm transition-colors duration-200 shadow-md hover:shadow-lg" 
+            <Link className="w-full bg-green-700 hover:bg-green-800 text-white text-center font-medium py-2 px-3 rounded-lg text-sm transition-colors duration-200 shadow-md hover:shadow-lg" 
                   href={`/donation?ngoId=${ngo.id}&ngoName=${ngo.name}`}>
                   Donate Now
             </Link>

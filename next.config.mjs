@@ -17,6 +17,11 @@ const nextConfig = {
         hostname: "media.istockphoto.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "imgs.search.brave.com",
+        pathname: "/**",
+      },
     ],
   },
 };

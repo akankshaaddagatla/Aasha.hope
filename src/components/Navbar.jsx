@@ -36,7 +36,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="flex justify-between items-center sticky top-0 z-50 bg-white p-7">
+    <nav className="flex shadow-sm justify-between items-center sticky top-0 z-50 bg-white/80 backdrop-blur p-7">
       <Logo />
       <div className="ml-5 hidden min-[890px]:flex gap-12">
         <Link

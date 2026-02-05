@@ -6,6 +6,7 @@ import ViewMore from "@/components/viewmore";
 import { getVerifiedNgos } from "./actions/ngo.actions";
 import { getVerifiedCampaigns } from "./actions/campaign.actions";
 import CampaignCard from "@/components/CampaignCard";
+import Hero from "@/components/HeroSection";
 
 export default function Home() {
   const [ngos, setngos] = useState([]);
@@ -57,11 +58,12 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
+      <Hero />
       <div>
-        <div className="text-center pt-5">
-          <h1 className="text-2xl font-bold text-blue-600">Support NGOs</h1>
+        <div className="text-center pt-10">
+          <h1 className="text-3xl font-bold text-blue-600">Support NGOs</h1>
           <p className="text-lg">
-            Be the steady hand that lifts someone up every single month
+            Be the steady hand that lifts someone up every single day
           </p>
         </div>
         <div className="mt-10 mx-25 ">
@@ -83,7 +85,7 @@ export default function Home() {
       </div>
       <div>
         <div className="text-center pt-5">
-          <h1 className="text-2xl font-bold text-blue-600">
+          <h1 className="text-3xl font-bold text-blue-600">
             Support a Campaign
           </h1>
           <p className="text-lg">
