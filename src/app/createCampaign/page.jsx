@@ -33,7 +33,7 @@ export default function CreateCampaignPage() {
 
       if (!currentUser) {
         setError('Please login to create a campaign');
-        router.push("/login");
+        router.push("/auth/login");
         return;
       }
 

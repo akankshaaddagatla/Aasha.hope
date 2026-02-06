@@ -107,7 +107,7 @@ export default function Navbar() {
           </div>
         ) : (
           <Link
-            href="/login"
+            href="/auth/login"
             className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
           >
             Login
@@ -166,7 +166,7 @@ export default function Navbar() {
                 </button>
               </>
             ) : (
-              <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
+              <Link href="/auth/login" onClick={() => setMobileMenuOpen(false)}>
                 Login
               </Link>
             )}

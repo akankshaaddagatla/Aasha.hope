@@ -63,7 +63,6 @@ export async function followNGO(ngoId) {
   }
 
   revalidatePath(`/ngos/${ngoId}`);
-  revalidatePath("/dashboard");
 
   return { success: true, message: "Successfully followed NGO!" };
 }
@@ -125,7 +124,6 @@ export async function unfollowNGO(ngoId) {
   }
 
   revalidatePath(`/ngos/${ngoId}`);
-  revalidatePath("/dashboard");
 
   return { success: true, message: "Unfollowed NGO" };
 }

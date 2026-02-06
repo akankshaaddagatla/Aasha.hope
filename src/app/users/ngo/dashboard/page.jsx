@@ -35,7 +35,7 @@ export default function NGODashboard() {
         const { data: user } = await getUser();
 
         if (!user) {
-          router.push("/login");
+          router.push("/auth/login");
           return;
         }
 
@@ -118,7 +118,7 @@ export default function NGODashboard() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-linear-to-r from-purple-600 to-pink-600 text-white">
+      <div className="bg-blue-500 text-white">
         <div className="max-w-7xl mx-auto px-4 py-8">
           <h1 className="text-3xl font-bold mb-2">{ngo.name}</h1>
           <p className="text-purple-100">NGO Admin Dashboard</p>
@@ -136,17 +136,17 @@ export default function NGODashboard() {
 
           <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
             <p className="text-sm text-gray-600 mb-1">Total Raised</p>
-            <p className="text-3xl font-bold">
+            <p className="text-3xl font-bold text-green-700">
               ₹{(ngo.amount_raised || 0).toLocaleString()}
             </p>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500">
+          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
             <p className="text-sm text-gray-600 mb-1">Active Campaigns</p>
             <p className="text-3xl font-bold">{activeCampaigns.length}</p>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-orange-500">
+          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
             <p className="text-sm text-gray-600 mb-1">Total Donations</p>
             <p className="text-3xl font-bold">{ngo.total_donations || 0}</p>
           </div>

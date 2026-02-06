@@ -15,14 +15,14 @@ export default function DonationBar(data) {
       <div>
         {ngoId ? (
           <Link
-            className="w-full bg-red-600 hover:bg-red-700 text-white text-center font-bold py-5 px-6 rounded-xl text-xl shadow-md hover:shadow-xl transition-colors duration-200"
+            className="w-full bg-red-700 hover:bg-red-800 text-white text-center font-bold py-5 px-6 rounded-xl text-xl shadow-md hover:shadow-xl transition-colors duration-200"
             href={`/donation?ngoId=${ngoId}&ngoName=${ngoName}`}
           >
             Donate Now
           </Link>
         ) : (
           <Link
-            className="w-full bg-red-600 hover:bg-red-700 text-white text-center font-bold py-5 px-6 rounded-xl text-xl shadow-md hover:shadow-xl transition-colors duration-200"
+            className="w-full bg-red-700 hover:bg-red-800 text-white text-center font-bold py-5 px-6 rounded-xl text-xl shadow-md hover:shadow-xl transition-colors duration-200"
             href={`/donation?campaignId=${campaignId}&campaignTitle=${campaignTitle}`}
           >
             Donate Now      

@@ -26,14 +26,14 @@ export async function verifyNGO(ngoId) {
     return { error: "Unauthorized. Admin access required." };
   }
 
-  console.log(ngoId)
+  console.log(ngoId);
   // Verify the NGO
   const { data, error } = await supabase
     .from("ngos")
-    .update({verification_status: 'verified'})
+    .update({ verification_status: "verified" })
     .eq("id", ngoId)
     .select()
-    .single()
+    .single();
 
   if (error) {
     console.log(error.message);
@@ -69,10 +69,10 @@ export async function rejectNgo(ngoId) {
 
   const { data, error } = await supabase
     .from("ngos")
-    .update({verification_status: 'rejected'})
+    .update({ verification_status: "rejected" })
     .eq("id", ngoId)
     .select()
-    .single()
+    .single();
 
   if (error) {
     console.log(error.message);
@@ -151,8 +151,8 @@ export async function rejectCampaign(campaignId) {
   const { error } = await supabase
     .from("campaigns")
     .update({
-      verification_status: 'rejected',
-      status: 'closed',
+      verification_status: "rejected",
+      status: "closed",
     })
     .eq("id", campaignId);
 
@@ -197,7 +197,7 @@ export async function getPendingNGOs() {
       )
     `,
     )
-    .eq("verification_status", 'pending')
+    .eq("verification_status", "pending")
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -245,7 +245,7 @@ export async function getPendingCampaigns() {
       )
     `,
     )
-    .eq("verification_status", 'pending')
+    .eq("verification_status", "pending")
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -276,7 +276,67 @@ export async function getAllDonations() {
     return { campaigns: [], error: "Unauthorized" };
   }
 
-  const { data, error } = await supabase.from("donations").select("*");
+  const { data, error } = await supabase
+    .from("donations")
+    .select(`*,ngos(id,name),campaigns(id,title), users(name)`)
+    .order('donated_at', {ascending : false})
+
+  if (error) {
+    return { success: false, error: error.message };
+  }
+
+  return { success: true, data: data };
+}
+
+export async function getAllSuccessfulDonations() {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return {success : false, error:"You must be logged in" };
+  }
+
+  const { data, error } = await supabase
+    .from("donations")
+    .select(`*,
+      ngos(id,name), campaigns(id, title)`)
+    .eq("payment_status", "successful")
+    .order("donated_at", { ascending: false });
+
+  if (error) {
+    return { success : false, data : [] };
+  }
+
+  return { success : true, data: data };
+}
+
+export async function getAllPosts() {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { campaigns: [], error: "Not authenticated" };
+  }
+
+  const { data: userData } = await supabase
+    .from("users")
+    .select("role")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  if (userData?.role !== "admin") {
+    return { campaigns: [], error: "Unauthorized" };
+  }
+
+  const { data, error } = await supabase
+    .from("posts")
+    .select("*");
 
   if (error) {
     return { success: false, error: error.message };

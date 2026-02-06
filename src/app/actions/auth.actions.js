@@ -123,3 +123,26 @@ export async function checkRole(requiredRole) {
 
   return user.profile.role === requiredRole;
 }
+
+export async function requestPasswordReset(formData) {
+  const supabase = await createClient();
+
+  const { email } = formData;
+
+  if (!email) {
+    return { error: "Email is required" };
+  }
+
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/resetPassword`,
+  });
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  return {
+    success: true,
+    message: "Password reset link has been sent to your email",
+  };
+}

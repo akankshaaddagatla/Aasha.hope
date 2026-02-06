@@ -33,7 +33,7 @@ export default function DonorDashboard() {
         const { data: user } = await getUser();
 
         if (!user) {
-          redirect("/login");
+          redirect("/auth/login");
         }
 
         const { data: userData } = await getUserById(user.id);
@@ -86,7 +86,7 @@ export default function DonorDashboard() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header - Fixed gradient class */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+      <div className="bg-blue-500 text-white">
         <div className="max-w-7xl mx-auto px-4 py-8">
           <h1 className="text-3xl font-bold mb-2">
             Welcome back, {userData.name}!

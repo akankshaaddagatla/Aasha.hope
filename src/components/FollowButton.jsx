@@ -39,7 +39,7 @@ export default function FollowButton({ ngoId, initialFollowing = false, setFollo
         if (result?.error) {
           setError(result.error)
           if (result.error.includes('logged in')) {
-            router.push('/login')
+            router.push('/auth/login')
           }
         } else {
           setIsFollowing(true)
@@ -98,7 +98,6 @@ export default function FollowButton({ ngoId, initialFollowing = false, setFollo
   )
 }
 
-// components/FollowStats.jsx
 // Display follower count with icon
 export function FollowStats({ followerCount }) {
   return (

@@ -1,36 +1,177 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🌱 Aasha.Hope — Trust-Based Crowdfunding & Social Donation Platform
 
-## Getting Started
+Aasha.Hope is a full-stack crowdfunding platform that enables NGOs and individuals to raise funds transparently, while helping donors stay emotionally connected to the causes they support.
 
-First, run the development server:
+Unlike traditional donation platforms that end at a payment confirmation, Aasha.Hope introduces a social transparency layer that allows donors to follow NGOs, view regular updates, and see real-world impact after donating — encouraging trust, community, and long-term donor retention.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Overview
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Aasha.Hope is built around a simple but powerful idea:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+> **Donors are more likely to donate again when they feel connected to the impact of their contribution.**
 
-## Learn More
+The platform separates long-term organizational identity from purpose-driven fundraising, while adding social engagement to close the emotional gap between donors and beneficiaries.
 
-To learn more about Next.js, take a look at the following resources:
+### The ecosystem includes:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- NGOs with verified public profiles and long-term fundraising goals  
+- Campaigns as goal-based, time-bound fundraisers  
+- Individuals raising funds for personal or emergency causes  
+- Donors who follow NGOs, donate securely, and track impact through updates  
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 📸 Screenshots
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Home & Discover
+![Home Page](./screenshots/home.png)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### NGO Profile
+![NGO Profile](./screenshots/ngo-profile.png)
+
+### Campaign Page
+![Campaign](./screenshots/campaign.png)
+
+### Donor Dashboard & Updates
+![Updates Feed](./screenshots/updates.png)
+
+### Admin Dashboard
+![Admin](./screenshots/admin.png)
+
+
+## ⭐ Core Features
+
+### 🔐 Authentication & Role-Based Access
+
+- Secure login and signup  
+- Role-specific dashboards:
+  - Donor  
+  - NGO  
+  - Individual fundraiser  
+  - Admin  
+- Protected routes and access control  
+
+---
+
+### 🏢 NGO Profiles
+
+- Verified public NGO profiles  
+- Represent long-term mission and credibility  
+- NGOs can define annual fundraising goals  
+- NGOs can launch multiple campaigns over time  
+- NGOs can post updates about ongoing work  
+- Real-time progress tracking (amount raised vs goal)  
+
+---
+
+### 🎯 Campaign System
+
+- Goal-based fundraising with clear targets  
+- Real-time progress tracking (amount raised vs goal)  
+- Campaign lifecycle states (pending, active, completed)  
+
+**Campaigns can be created by:**
+
+- NGOs (for specific initiatives)  
+- Individuals (for medical, education, emergency causes)  
+
+---
+
+### 💳 Secure Donations
+
+- Razorpay payment integration (test mode)  
+- One-time donations  
+- Automatic update of campaign progress  
+- Donation history for donors  
+
+---
+
+### 🤝 Follow System (Social Layer)
+
+- Donors can follow NGOs they care about  
+- Following creates a long-term connection beyond a single donation  
+- Followed NGOs appear in the donor’s personalized dashboard  
+
+---
+
+### 📰 Updates & Transparency (Core Innovation)
+
+NGOs can post regular updates about:
+
+- Work in progress  
+- On-ground activities  
+- Real-life impact of donations  
+
+**Updates are visible on:**
+
+- NGO profile pages  
+- Donor dashboards (“Updates from NGOs you follow”)  
+
+This feature transforms donations from a one-time transaction into an ongoing relationship.
+
+By seeing how their money is used, donors:
+
+- Feel included as part of a community  
+- Gain confidence and trust in the organization  
+- Experience emotional reinforcement  
+- Are more likely to donate again (donor retention)  
+
+---
+
+### 🛡️ Admin Verification & Moderation
+
+- Admin dashboard for platform oversight  
+- Approval workflows for:
+  - NGOs  
+  - Campaigns  
+- Reduces misuse and improves trust  
+- Ensures only verified entities raise funds  
+
+---
+
+## 🧠 Product & System Design Highlights
+
+- Clear separation between:
+  - **NGOs →** long-term organizational identity  
+  - **Campaigns →** specific fundraising objectives  
+- Social features designed to improve donor engagement and retention  
+- Verification-first architecture to build trust  
+- Role-based authorization and moderation  
+- Production-style database modeling and access control  
+
+> **Aasha.Hope is not just about collecting donations —  
+it is about building a transparent, trust-driven fundraising community.**
+
+---
+
+## 🛠 Tech Stack
+
+### Frontend
+- Next.js (App Router)  
+- React  
+- Tailwind CSS (pure Tailwind, no component libraries)  
+
+### Backend
+- Next.js Server Actions  
+- Supabase (PostgreSQL)  
+
+### Authentication & Security
+- Supabase Auth  
+- Row-Level Security (RLS)  
+
+### Payments
+- Razorpay (test mode)  
+
+### Deployment
+- Vercel  
+
+---
+
+## 🔮 Future Enhancements
+
+- Monthly recurring donations (subscriptions)  
+- Notifications for new updates  
+- Comments and reactions on updates  
+- Enhanced verification for personal fundraisers 
