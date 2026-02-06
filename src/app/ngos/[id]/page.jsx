@@ -91,7 +91,7 @@ export default function NGOPage({ params }) {
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4">
                     <div className="flex-1">
-                      <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-3">
+                      <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-3">
                         {ngo.name}
                       </h1>
                       {ngo.verification_status == 'verified' && (

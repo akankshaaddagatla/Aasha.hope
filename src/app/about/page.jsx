@@ -128,7 +128,7 @@ export default function AboutPage() {
               Explore NGOs and Campaigns
             </Link>
             <Link
-              href="/signup"
+              href="/users/ngo/dashboard/registerNgo"
               className="border-2 border-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-white/10 transition-colors"
             >
               Register Your NGO
