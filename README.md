@@ -21,7 +21,7 @@ The platform separates long-term organizational identity from purpose-driven fun
 - Donors who follow NGOs, donate securely, and track impact through updates  
 
 ## 🔗 Live Demo
-👉 https://aasha-hope-dq8w.vercel.app
+👉 https://aasha-hope-seven.vercel.app/
 
 ## 📸 Screenshots
 
@@ -33,9 +33,6 @@ The platform separates long-term organizational identity from purpose-driven fun
 
 ### Donor Dashboard & Updates
 ![Donor Dashboard](./screenshots/donor.dashboard.png)
-
-### NGO Dashboard & Updates
-![NGO dashboard](./screenshots/ngo.dashboard.png)
 
 ### Admin Dashboard 
 ![Admin dashboard](./screenshots/admin.dashboard.png)
