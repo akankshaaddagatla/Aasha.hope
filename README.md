@@ -28,26 +28,11 @@ The platform separates long-term organizational identity from purpose-driven fun
 ### Home & Discover
 ![Home Page](./screenshots/home.png)
 
-### NGO Listing Page
-![NGOs Listing Page](./screenshots/ngosListing.page.png)
-
 ### NGO Page
 ![Single NGO Page](./screenshots/ngo.page.png)
 
-### NGO Profile
-![NGO Profile](./screenshots/ngo.profile.png)
-
-### Campaign Listing Page
-![Campaigns Listing Page](./screenshots/campaignsListing.page.png)
-
-### Campaign Page
-![Single Campaign Page](./screenshots/campaign.page.png)
-
 ### Donor Dashboard & Updates
 ![Donor Dashboard](./screenshots/donor.dashboard.png)
-
-### Donor Profile
-![Donor Profile](./screenshots/donor.profile.png)
 
 ### NGO Dashboard & Updates
 ![NGO dashboard](./screenshots/ngo.dashboard.png)
