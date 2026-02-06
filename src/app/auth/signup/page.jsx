@@ -62,7 +62,7 @@ export default function SignupPage() {
       setSuccess(result.message)
       // Redirect to login after 2 seconds
       setTimeout(() => {
-        router.push('/login')
+        router.push('/auth/login')
       }, 2000)
     }
   }
