@@ -4,13 +4,12 @@ Aasha.Hope is a full-stack crowdfunding platform that enables NGOs and individua
 
 Unlike traditional donation platforms that end at a payment confirmation, Aasha.Hope introduces a social transparency layer that allows donors to follow NGOs, view regular updates, and see real-world impact after donating — encouraging trust, community, and long-term donor retention.
 
----
 
 ## 🚀 Overview
 
 Aasha.Hope is built around a simple but powerful idea:
 
-> **Donors are more likely to donate again when they feel connected to the impact of their contribution.**
+ **Donors are more likely to donate again when they feel connected to the impact of their contribution.**
 
 The platform separates long-term organizational identity from purpose-driven fundraising, while adding social engagement to close the emotional gap between donors and beneficiaries.
 
@@ -21,25 +20,40 @@ The platform separates long-term organizational identity from purpose-driven fun
 - Individuals raising funds for personal or emergency causes  
 - Donors who follow NGOs, donate securely, and track impact through updates  
 
----
+## 🔗 Live Demo
+👉 https://aasha-hope-dq8w.vercel.app
 
 ## 📸 Screenshots
 
 ### Home & Discover
 ![Home Page](./screenshots/home.png)
 
+### NGO Listing Page
+![NGOs Listing Page](./screenshots/ngosListing.page.png)
+
+### NGO Page
+![Single NGO Page](./screenshots/ngo.page.png)
+
 ### NGO Profile
-![NGO Profile](./screenshots/ngo-profile.png)
+![NGO Profile](./screenshots/ngo.profile.png)
+
+### Campaign Listing Page
+![Campaigns Listing Page](./screenshots/campaignsListing.page.png)
 
 ### Campaign Page
-![Campaign](./screenshots/campaign.png)
+![Single Campaign Page](./screenshots/campaign.page.png)
 
 ### Donor Dashboard & Updates
-![Updates Feed](./screenshots/updates.png)
+![Donor Dashboard](./screenshots/donor.dashboard.png)
 
-### Admin Dashboard
-![Admin](./screenshots/admin.png)
+### Donor Profile
+![Donor Profile](./screenshots/donor.profile.png)
 
+### NGO Dashboard & Updates
+![NGO dashboard](./screenshots/ngo.dashboard.png)
+
+### Admin Dashboard 
+![Admin dashboard](./screenshots/admin.dashboard.png)
 
 ## ⭐ Core Features
 
@@ -48,12 +62,10 @@ The platform separates long-term organizational identity from purpose-driven fun
 - Secure login and signup  
 - Role-specific dashboards:
   - Donor  
-  - NGO  
-  - Individual fundraiser  
+  - NGO 
   - Admin  
 - Protected routes and access control  
 
----
 
 ### 🏢 NGO Profiles
 
@@ -64,7 +76,6 @@ The platform separates long-term organizational identity from purpose-driven fun
 - NGOs can post updates about ongoing work  
 - Real-time progress tracking (amount raised vs goal)  
 
----
 
 ### 🎯 Campaign System
 
@@ -77,7 +88,6 @@ The platform separates long-term organizational identity from purpose-driven fun
 - NGOs (for specific initiatives)  
 - Individuals (for medical, education, emergency causes)  
 
----
 
 ### 💳 Secure Donations
 
@@ -86,7 +96,6 @@ The platform separates long-term organizational identity from purpose-driven fun
 - Automatic update of campaign progress  
 - Donation history for donors  
 
----
 
 ### 🤝 Follow System (Social Layer)
 
@@ -94,7 +103,6 @@ The platform separates long-term organizational identity from purpose-driven fun
 - Following creates a long-term connection beyond a single donation  
 - Followed NGOs appear in the donor’s personalized dashboard  
 
----
 
 ### 📰 Updates & Transparency (Core Innovation)
 
@@ -118,7 +126,6 @@ By seeing how their money is used, donors:
 - Experience emotional reinforcement  
 - Are more likely to donate again (donor retention)  
 
----
 
 ### 🛡️ Admin Verification & Moderation
 
@@ -129,7 +136,6 @@ By seeing how their money is used, donors:
 - Reduces misuse and improves trust  
 - Ensures only verified entities raise funds  
 
----
 
 ## 🧠 Product & System Design Highlights
 
@@ -144,7 +150,6 @@ By seeing how their money is used, donors:
 > **Aasha.Hope is not just about collecting donations —  
 it is about building a transparent, trust-driven fundraising community.**
 
----
 
 ## 🛠 Tech Stack
 
@@ -167,7 +172,14 @@ it is about building a transparent, trust-driven fundraising community.**
 ### Deployment
 - Vercel  
 
----
+## 🚀 Key Technical Highlights
+
+- Built a full-stack production-style application using Next.js App Router
+- Designed a role-based authorization system (Donor, NGO, Admin)
+- Implemented secure payments with Razorpay
+- Modeled relational data using PostgreSQL with Row Level Security
+- Developed a social follow + updates system to improve donor retention
+- Created admin verification workflows to prevent platform misuse
 
 ## 🔮 Future Enhancements
 
@@ -175,3 +187,25 @@ it is about building a transparent, trust-driven fundraising community.**
 - Notifications for new updates  
 - Comments and reactions on updates  
 - Enhanced verification for personal fundraisers 
+
+## ⚙️ Local Setup
+
+Follow these steps to run the project locally:
+
+1. Clone the repository
+```bash
+git clone https://github.com/akankshaaddagatla/Aasha.hope.git
+cd Aasha.hope
+npm install
+
+2. Setup environment variables
+Create a .env.local file in the root directory and add:
+  NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+  NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_key
+  RAZORPAY_KEY_ID=your_key
+  RAZORPAY_SECRET=your_secret
+
+3. Run the development server
+  npm run dev
+
+
