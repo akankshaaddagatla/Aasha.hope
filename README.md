@@ -1,138 +1,82 @@
 # 🌱 Aasha.Hope — Trust-Based Crowdfunding & Social Donation Platform
 
-Aasha.Hope is a full-stack crowdfunding platform that enables NGOs and individuals to raise funds transparently, while helping donors stay emotionally connected to the causes they support.
-
-Unlike traditional donation platforms that end at a payment confirmation, Aasha.Hope introduces a social transparency layer that allows donors to follow NGOs, view regular updates, and see real-world impact after donating — encouraging trust, community, and long-term donor retention.  
+A trust-first crowdfunding platform that combines transparent fundraising with social engagement to improve donor retention.  
+Unlike traditional donation platforms that end at payment confirmation, Aasha.Hope introduces a **social transparency layer** where donors can follow NGOs, receive updates, and see the real-world impact of their contributions — fostering trust, community, and long-term engagement.
 
 ## 🔗 Live Demo
 👉 https://aasha-hope-seven.vercel.app/
 
-## 📸 Screenshots
-
-### Home & Discover
-![Home Page](./screenshots/home.png)
-
-### NGO Page
-![Single NGO Page](./screenshots/ngo.page.png)
-
-### Donor Dashboard & Updates
-![Donor Dashboard](./screenshots/donor.dashboard.png)
-
-### Admin Dashboard 
-![Admin dashboard](./screenshots/admin.dashboard.png)
-
-## 🖼 Screenshots
-
-| Home Page | NGO Page |
-|---------|------------|
-| <img src="./screenshots/home.png" width="450"/> | <img src="./screenshots/ngo.page.png" width="450"/> |
-
-| Donor Dashboard | Admin Panel |
-|---------------|--------------|
-| <img src="./screenshots/donor.dashboard.png" width="450"/> | <img src="./screenshots/admin.dashboard.png" width="450"/> |
-
-## ⭐ Core Features
+## ✨ Key Features
 
 ### 🔐 Authentication & Role-Based Access
-
 - Secure login and signup  
 - Role-specific dashboards:
   - Donor  
   - NGO 
-  - Admin  
-- Protected routes and access control  
-
+  - Admin 
 
 ### 🏢 NGO Profiles
-
 - Verified public NGO profiles  
-- Represent long-term mission and credibility  
-- NGOs can define annual fundraising goals  
-- NGOs can launch multiple campaigns over time  
-- NGOs can post updates about ongoing work  
+- Represent the organization’s long-term mission and credibility  
+- NGOs can define annual fundraising goals and launch multiple campaigns.   
+- NGOs can post updates about ongoing work.  
 - Real-time progress tracking (amount raised vs goal)  
-
 
 ### 🎯 Campaign System
 
 - Goal-based fundraising with clear targets  
 - Real-time progress tracking (amount raised vs goal)  
-- Campaign lifecycle states (pending, active, completed)  
+- Campaign lifecycle states (pending, active, completed, closed)  
 
 **Campaigns can be created by:**
-
 - NGOs (for specific initiatives)  
 - Individuals (for medical, education, emergency causes)  
-
 
 ### 💳 Secure Donations
 
 - Razorpay payment integration (test mode)  
 - One-time donations  
-- Automatic update of campaign progress  
-- Donation history for donors  
-
 
 ### 🤝 Follow System (Social Layer)
 
-- Donors can follow NGOs they care about  
-- Following creates a long-term connection beyond a single donation  
+- Donors can follow NGOs they care about and look at the updates posted by NGOs.  
 - Followed NGOs appear in the donor’s personalized dashboard  
-
 
 ### 📰 Updates & Transparency (Core Innovation)
 
-NGOs can post regular updates about:
-
+NGOs can share:
 - Work in progress  
 - On-ground activities  
 - Real-life impact of donations  
 
-**Updates are visible on:**
-
+Updates appear on:
 - NGO profile pages  
-- Donor dashboards (“Updates from NGOs you follow”)  
-
-This feature transforms donations from a one-time transaction into an ongoing relationship.
-
-By seeing how their money is used, donors:
-
-- Feel included as part of a community  
-- Gain confidence and trust in the organization  
-- Experience emotional reinforcement  
-- Are more likely to donate again (donor retention)  
-
+- Donor dashboards
+  
+This transforms donations from a one-time transaction into an ongoing relationship — increasing donor confidence and long-term retention.
 
 ### 🛡️ Admin Verification & Moderation
 
 - Admin dashboard for platform oversight  
 - Approval workflows for:
   - NGOs  
-  - Campaigns  
-- Reduces misuse and improves trust  
-- Ensures only verified entities raise funds  
+  - Campaigns
 
-
-## 🧠 Product & System Design Highlights
+## 🧠 Design Decisions
 
 - Clear separation between:
   - **NGOs →** long-term organizational identity  
   - **Campaigns →** specific fundraising objectives  
 - Social features designed to improve donor engagement and retention  
 - Verification-first architecture to build trust  
-- Role-based authorization and moderation  
-- Production-style database modeling and access control  
-
-> **Aasha.Hope is not just about collecting donations —  
-it is about building a transparent, trust-driven fundraising community.**
-
-
+- Role-based authorization and moderation
+  
 ## 🛠 Tech Stack
 
 ### Frontend
 - Next.js (App Router)  
 - React  
-- Tailwind CSS (pure Tailwind, no component libraries)  
+- Tailwind CSS 
 
 ### Backend
 - Next.js Server Actions  
@@ -148,40 +92,38 @@ it is about building a transparent, trust-driven fundraising community.**
 ### Deployment
 - Vercel  
 
-## 🚀 Key Technical Highlights
-
-- Built a full-stack production-style application using Next.js App Router
-- Designed a role-based authorization system (Donor, NGO, Admin)
-- Implemented secure payments with Razorpay
-- Modeled relational data using PostgreSQL with Row Level Security
-- Developed a social follow + updates system to improve donor retention
-- Created admin verification workflows to prevent platform misuse
-
-## 🔮 Future Enhancements
-
-- Monthly recurring donations (subscriptions)  
-- Notifications for new updates  
-- Comments and reactions on updates  
-- Enhanced verification for personal fundraisers 
-
 ## ⚙️ Local Setup
-
 Follow these steps to run the project locally:
 
-1. Clone the repository
+### 1. Clone the repository
 ```bash
 git clone https://github.com/akankshaaddagatla/Aasha.hope.git
 cd Aasha.hope
 npm install
+```
 
-2. Setup environment variables
-Create a .env.local file in the root directory and add:
-  NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-  NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_key
-  RAZORPAY_KEY_ID=your_key
-  RAZORPAY_SECRET=your_secret
+### 2. Setup environment variables
+Create a `.env.local` file:
 
-3. Run the development server
-  npm run dev
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_key
+RAZORPAY_KEY_ID=your_key
+RAZORPAY_SECRET=your_secret
+```
 
+### 3. Run the development server
+```bash
+npm run dev
+```
+
+## 🖼 Screenshots
+
+| Home Page | NGO Page |
+|---------|------------|
+| <img src="./screenshots/home.png" width="450"/> | <img src="./screenshots/ngo.page.png" width="450"/> |
+
+| Donor Dashboard | Admin Dashboard |
+|---------------|--------------|
+| <img src="./screenshots/donor.dashboard.png" width="450"/> | <img src="./screenshots/admin.dashboard.png" width="450"/> |
 
