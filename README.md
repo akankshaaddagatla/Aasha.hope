@@ -2,23 +2,7 @@
 
 Aasha.Hope is a full-stack crowdfunding platform that enables NGOs and individuals to raise funds transparently, while helping donors stay emotionally connected to the causes they support.
 
-Unlike traditional donation platforms that end at a payment confirmation, Aasha.Hope introduces a social transparency layer that allows donors to follow NGOs, view regular updates, and see real-world impact after donating — encouraging trust, community, and long-term donor retention.
-
-
-## 🚀 Overview
-
-Aasha.Hope is built around a simple but powerful idea:
-
- **Donors are more likely to donate again when they feel connected to the impact of their contribution.**
-
-The platform separates long-term organizational identity from purpose-driven fundraising, while adding social engagement to close the emotional gap between donors and beneficiaries.
-
-### The ecosystem includes:
-
-- NGOs with verified public profiles and long-term fundraising goals  
-- Campaigns as goal-based, time-bound fundraisers  
-- Individuals raising funds for personal or emergency causes  
-- Donors who follow NGOs, donate securely, and track impact through updates  
+Unlike traditional donation platforms that end at a payment confirmation, Aasha.Hope introduces a social transparency layer that allows donors to follow NGOs, view regular updates, and see real-world impact after donating — encouraging trust, community, and long-term donor retention.  
 
 ## 🔗 Live Demo
 👉 https://aasha-hope-seven.vercel.app/
@@ -36,6 +20,16 @@ The platform separates long-term organizational identity from purpose-driven fun
 
 ### Admin Dashboard 
 ![Admin dashboard](./screenshots/admin.dashboard.png)
+
+## 🖼 Screenshots
+
+| Home Page | NGO Page |
+|---------|------------|
+| <img src="./screenshots/home.png" width="450"/> | <img src="./screenshots/ngo.page.png" width="450"/> |
+
+| Donor Dashboard | Admin Panel |
+|---------------|--------------|
+| <img src="./screenshots/donor.dashboard.png" width="450"/> | <img src="./screenshots/admin.dashboard.png" width="450"/> |
 
 ## ⭐ Core Features
 
