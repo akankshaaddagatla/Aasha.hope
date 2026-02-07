@@ -1,7 +1,8 @@
 # 🌱 Aasha.Hope — Trust-Based Crowdfunding & Social Donation Platform
 
-A trust-first crowdfunding platform that combines transparent fundraising with social engagement to improve donor retention.  
-Unlike traditional donation platforms that end at payment confirmation, Aasha.Hope introduces a **social transparency layer** where donors can follow NGOs, receive updates, and see the real-world impact of their contributions — fostering trust, community, and long-term engagement.
+A trust-first crowdfunding platform that combines transparent fundraising with social engagement to improve donor retention.
+
+Unlike traditional donation platforms that end at payment confirmation, Aasha.Hope introduces a **social transparency layer** where donors can follow NGOs, see updates, and see the real-world impact of their contributions — fostering trust, community, and long-term engagement.
 
 ## 🔗 Live Demo
 👉 https://aasha-hope-seven.vercel.app/
@@ -15,12 +16,14 @@ Unlike traditional donation platforms that end at payment confirmation, Aasha.Ho
   - NGO 
   - Admin 
 
+
 ### 🏢 NGO Profiles
 - Verified public NGO profiles  
 - Represent the organization’s long-term mission and credibility  
 - NGOs can define annual fundraising goals and launch multiple campaigns.   
 - NGOs can post updates about ongoing work.  
 - Real-time progress tracking (amount raised vs goal)  
+
 
 ### 🎯 Campaign System
 
@@ -32,15 +35,18 @@ Unlike traditional donation platforms that end at payment confirmation, Aasha.Ho
 - NGOs (for specific initiatives)  
 - Individuals (for medical, education, emergency causes)  
 
+
 ### 💳 Secure Donations
 
 - Razorpay payment integration (test mode)  
 - One-time donations  
 
+
 ### 🤝 Follow System (Social Layer)
 
 - Donors can follow NGOs they care about and look at the updates posted by NGOs.  
 - Followed NGOs appear in the donor’s personalized dashboard  
+
 
 ### 📰 Updates & Transparency (Core Innovation)
 
@@ -54,6 +60,7 @@ Updates appear on:
 - Donor dashboards
   
 This transforms donations from a one-time transaction into an ongoing relationship — increasing donor confidence and long-term retention.
+
 
 ### 🛡️ Admin Verification & Moderation
 
@@ -70,6 +77,7 @@ This transforms donations from a one-time transaction into an ongoing relationsh
 - Social features designed to improve donor engagement and retention  
 - Verification-first architecture to build trust  
 - Role-based authorization and moderation
+
   
 ## 🛠 Tech Stack
 
@@ -91,6 +99,7 @@ This transforms donations from a one-time transaction into an ongoing relationsh
 
 ### Deployment
 - Vercel  
+
 
 ## ⚙️ Local Setup
 Follow these steps to run the project locally:
@@ -116,6 +125,7 @@ RAZORPAY_SECRET=your_secret
 ```bash
 npm run dev
 ```
+
 
 ## 🖼 Screenshots
 
